@@ -264,6 +264,7 @@ public class FSATest {
 		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "heyyy");
 		sendKeyWrapper("//*[. = 'Description']//*[@class = 'x-input-el']", "heyyy");
 		
+		touchWraper("//*[text() = 'Save']", "tap");
 
 		/*
 		 * File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE); FileUtils.copyFile(scrFile, new File("/Users/Downloads/g2.jpg")); ;//*[contains(.,'Work Orders')]"))
