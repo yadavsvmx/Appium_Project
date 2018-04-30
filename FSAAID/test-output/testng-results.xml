@@ -2,20 +2,20 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="91411" started-at="2018-04-30T11:04:26Z" finished-at="2018-04-30T11:05:58Z">
+  <suite name="Default suite" duration-ms="96399" started-at="2018-04-30T12:05:57Z" finished-at="2018-04-30T12:07:33Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="91411" started-at="2018-04-30T11:04:26Z" finished-at="2018-04-30T11:05:58Z">
+    <test name="Default test" duration-ms="96399" started-at="2018-04-30T12:05:57Z" finished-at="2018-04-30T12:07:33Z">
       <class name="FSAID.FSAAID.FSATest">
-        <test-method status="PASS" signature="setUp()[pri:0, instance:FSAID.FSAAID.FSATest@72d818d1]" name="setUp" is-config="true" duration-ms="12308" started-at="2018-04-30T16:34:26Z" finished-at="2018-04-30T16:34:39Z">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:FSAID.FSAAID.FSATest@72d818d1]" name="setUp" is-config="true" duration-ms="12237" started-at="2018-04-30T17:35:57Z" finished-at="2018-04-30T17:36:09Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="testiOS()[pri:0, instance:FSAID.FSAAID.FSATest@72d818d1]" name="testiOS" duration-ms="79081" started-at="2018-04-30T16:34:39Z" finished-at="2018-04-30T16:35:58Z">
+        <test-method status="PASS" signature="testiOS()[pri:0, instance:FSAID.FSAAID.FSATest@72d818d1]" name="testiOS" duration-ms="84141" started-at="2018-04-30T17:36:09Z" finished-at="2018-04-30T17:37:33Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testiOS -->
-        <test-method status="PASS" signature="tearDown()[pri:0, instance:FSAID.FSAAID.FSATest@72d818d1]" name="tearDown" is-config="true" duration-ms="0" started-at="2018-04-30T16:35:58Z" finished-at="2018-04-30T16:35:58Z">
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:FSAID.FSAAID.FSATest@72d818d1]" name="tearDown" is-config="true" duration-ms="1" started-at="2018-04-30T17:37:33Z" finished-at="2018-04-30T17:37:33Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
