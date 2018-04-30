@@ -50,13 +50,10 @@ public class FSATest {
 		capabilities.setCapability("platformVersion", "11.2.6");
 		capabilities.setCapability("deviceName", "IPAD AIR2 : FSA ARA : 2");
 		capabilities.setCapability("automationName", "XCUITest");
+		
 		// capabilities.setCapability("app","/auto/appium/3.2.6.309_FSA_SAND.ipa");
-		// capabilities.setCapability("app","/auto/appium/3.2.2.325_ServiceMax Field
-		// Service_sand.ipa");
 		capabilities.setCapability("app", "/auto/appium/FSA_3.2.7.361_Sand.ipa");
-
-		// capabilities.setCapability("app","/Users/yadavthyagaraj/Downloads/Verifaya
-		// Vanila App/3.2.2.325_ServiceMax Field Service.ipa");
+		
 		capabilities.setCapability("udid", "011b900b94d772578a443dc5617e7c53032be901");
 		capabilities.setCapability("xcodeOrgId", "UZ47KHA3AB");
 		capabilities.setCapability("xcodeSigningId", "iPhone Developer: Rajesh Rao (76X824PR66)");
@@ -121,7 +118,7 @@ public class FSATest {
 
 				elText = el.getText();
 				elTagname = el.getTagName();
-//Try multiple times unless the coordinates are available for both
+				// Try multiple times unless the coordinates are available for both
 				try {
 					if (xyPoint.getX() == 0 && xyPoint.getY() == 0) {
 
@@ -142,21 +139,21 @@ public class FSATest {
 			if (typeOfAction.toLowerCase().equals("tap")) {
 
 				touch.tap(xyPoint.getX() + xOffset, xyPoint.getY() + yOffset).release().perform();
-//				 if (!elId.equals("")) {
-//					 try {
-//				driver.findElement(By.id(elId)).click();
-//					 }catch(Exception e) {
-//						 //Do nothing
-//						 System.out.println("Could not clikc on the element ID, Trying with location coordinates");
-//						 touch.tap(xyPoint.getX()+10, xyPoint.getY()).release().perform();
-//					 }
-//				
-//				 } else {
-//				 // use coordinates
-//				 touch.tap(xyPoint.getX()+10, xyPoint.getY()).release().perform();
-//				
-//				 }
-//				
+				// if (!elId.equals("")) {
+				// try {
+				// driver.findElement(By.id(elId)).click();
+				// }catch(Exception e) {
+				// //Do nothing
+				// System.out.println("Could not clikc on the element ID, Trying with location coordinates");
+				// touch.tap(xyPoint.getX()+10, xyPoint.getY()).release().perform();
+				// }
+				//
+				// } else {
+				// // use coordinates
+				// touch.tap(xyPoint.getX()+10, xyPoint.getY()).release().perform();
+				//
+				// }
+				//
 
 			} else if (typeOfAction.toLowerCase().equals("longpress")) {
 
@@ -192,10 +189,10 @@ public class FSATest {
 	}
 
 	public void setDateWrapper(String xpathStr, String DateFormatArray) throws InterruptedException {
+
 		Thread.sleep(3000);
 		driver.findElement(By.xpath(xpathStr)).click();
 
-		
 		driver.context(nativeApp);
 
 		List<IOSElement> wheels = (List<IOSElement>) driver.findElements(By.xpath("//XCUIElementTypePickerWheel"));
@@ -203,34 +200,40 @@ public class FSATest {
 		Thread.sleep(3000);
 
 		try {
-			
-		for(int i=0;i< wheels.size();i++) {
-	System.out.println(" Wheels Value = " + wheels.get(i).getAttribute("value"));
-	
-}
-		
-		wheels.get(0).sendKeys("");
 
-		wheels.get(0).sendKeys("Thu 3 May");
-		wheels.get(1).sendKeys("7");
-		
-		driver.findElement(By.name("Done")).click();
+			for (int i = 0; i < wheels.size(); i++) {
+				System.out.println(" Wheels Value = " + wheels.get(i).getAttribute("value"));
+
+			}
+
+			wheels.get(0).sendKeys("Thu, 12 Apr");
+			Thread.sleep(3000);
+
+			wheels.get(0).setValue("Thu, 3 May");
+			wheels.get(1).sendKeys("7");
+
+			driver.findElement(By.name("Done")).click();
 
 		}
-		
-		catch(Exception e){
-			System.out.println("Date Picker Eception - "+e);
+
+		catch (Exception e) {
+			System.out.println("Date Picker Eception - " + e);
 		}
-		//driver.getKeyboard().pressKey(Keys.ENTER);
+		// driver.getKeyboard().pressKey(Keys.ENTER);
 		driver.context(webApp);
 
+	}
+
+	public void sendKeyWrapper(String xpathStr, String textStr) throws InterruptedException {
+		Thread.sleep(1000);
+		driver.findElement(By.xpath(xpathStr)).sendKeys(textStr);
 	}
 
 	public void login() throws InterruptedException, IOException {
 		driver.findElement(By.id("svmx_splash_signin")).click();
 		Thread.sleep(6000);
-//		driver.findElement(By.id("username")).sendKeys("Vinod.tharavath@ge.com");
-//		driver.findElement(By.id("password")).sendKeys("svmx123#");
+		// driver.findElement(By.id("username")).sendKeys("Vinod.tharavath@ge.com");
+		// driver.findElement(By.id("password")).sendKeys("svmx123#");
 		driver.findElement(By.id("username")).sendKeys("fsa2@bugbash.com");
 		driver.findElement(By.id("password")).sendKeys("servicemax2");
 		driver.findElement(By.id("Login")).click();
@@ -245,27 +248,31 @@ public class FSATest {
 	@Test
 	public void testiOS() throws InterruptedException, IOException {
 		// login();
-		
-		 touchWraper("//*[text() = 'Explore']", "tap");
-		 //touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-		
-		 touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		 touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-		
-		 touchWraper("//*[text() = 'WO-00000899']", "tap");
-		 touchWraper("//*[text() = 'Actions']", "tap");
-		 touchWraper("//*[text() = 'New Event']", "tap");
+
+		touchWraper("//*[text() = 'Explore']", "tap");
+		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
+
+		touchWraper("//*[text() = 'DC SEARCH']", "tap");
+		touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
+
+		touchWraper("//*[text() = 'WO-00000899']", "tap");
+		touchWraper("//*[text() = 'Actions']", "tap");
+		touchWraper("//*[text() = 'New Event']", "tap");
 
 		setDateWrapper("//*[@data-componentid ='ext-svmx-field-datetime-2']//input", "");
+		
+		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "heyyy");
+		sendKeyWrapper("//*[. = 'Description']//*[@class = 'x-input-el']", "heyyy");
+		
 
 		/*
-		 * File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		 * FileUtils.copyFile(scrFile, new File("/Users/Downloads/g2.jpg"));
-		 * ;//*[contains(.,'Work Orders')]"))
+		 * File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE); FileUtils.copyFile(scrFile, new File("/Users/Downloads/g2.jpg")); ;//*[contains(.,'Work Orders')]"))
 		 * 
 		 * "//*[@id='ext-element-1048']/div"
 		 * 
 		 * "//*[@class = 'x-listitem-body']/*[@class = 'x-innerhtml']/*[contains(.,'Work Orders \(')]"
+		 * 
+		 * driver.findElement(By.xpath("//*[@data-componentid = 'ext-textareainput-2']//textarea[@class = 'x-input-el']")).sendKeys("Hallo");
 		 */
 
 	}

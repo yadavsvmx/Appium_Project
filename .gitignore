@@ -1,0 +1,14 @@
+
+FSAAID/target/*
+*.properties
+*.xml
+*.png
+*.gif
+*.html
+*.js
+*.css
+*.txt
+*.jar
+*.html
+
+
