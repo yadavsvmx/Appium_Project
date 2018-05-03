@@ -11,6 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -101,7 +105,7 @@ public class FSATest {
 			Integer xOffset = 15;
 			Integer yOffset = 15;
 
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 			Integer count = 0;
 			// while the following loop runs, the DOM changes -
 			// page is refreshed, or element is removed and re-added
@@ -123,6 +127,11 @@ public class FSATest {
 					if (xyPoint.getX() == 0 && xyPoint.getY() == 0) {
 
 						Thread.sleep(1000);
+						
+					}else if(xyPoint.getY() == 0) {
+						//SOmetimes the y coordinates are hidden under the screen space so tap on it and wait for it to generate a coordinate
+						Thread.sleep(1000);
+						xyPoint = el.getLocation();
 					}
 
 					else {
@@ -187,10 +196,41 @@ public class FSATest {
 			System.out.println("outer exception " + e);
 		}
 	}
+	
+	public String getDateTime(int year, int month, int day){
+	    Calendar cal = Calendar.getInstance();
+	    cal.set(year, month, day);
+	    String format = "dd-MM-yyyy";
+	    return new SimpleDateFormat(format).format(cal.getTime());
+	}
 
+	public void setSelectedWrapper(String xpathStr, String value) throws InterruptedException {
+		Thread.sleep(1000);
+		
+		System.out.println("Acting on Element " + xpathStr);
+
+		driver.findElement(By.xpath(xpathStr)).click();
+		driver.context(nativeApp);
+
+		List<IOSElement> pickerField = (List<IOSElement>) driver.findElements(By.xpath("//XCUIElementTypePickerWheel"));
+		pickerField.get(0).sendKeys(value);
+		driver.findElement(By.name("Done")).click();
+		driver.context(webApp);
+
+	}
+	
 	public void setDateWrapper(String xpathStr, String DateFormatArray) throws InterruptedException {
+		System.out.println("Acting on Element " + xpathStr);
 
-		Thread.sleep(3000);
+		DateFormat dateFormat2 = new SimpleDateFormat("dd"); 
+        Date date2 = new Date();
+
+        String today = dateFormat2.format(date2); 
+		System.out.println("today = " + today);
+		
+		System.out.println("today = " + getDateTime(2019, 12, 2));
+
+		Thread.sleep(2000);
 		driver.findElement(By.xpath(xpathStr)).click();
 
 		driver.context(nativeApp);
@@ -206,11 +246,11 @@ public class FSATest {
 
 			}
 
-			wheels.get(0).sendKeys("Thu, 12 Apr");
-			Thread.sleep(3000);
+			wheels.get(0).sendKeys("02/06/18");
+			Thread.sleep(1000);
 
-			wheels.get(0).setValue("Thu, 3 May");
-			wheels.get(1).sendKeys("7");
+			//driver.findElement(By.xpath("//*[. = 'End Date and Time']//*[@class = 'x-input-el']")).sendKeys("30/07/2019 4:45 PM");
+			wheels.get(1).sendKeys("9");
 
 			driver.findElement(By.name("Done")).click();
 
@@ -226,6 +266,8 @@ public class FSATest {
 
 	public void sendKeyWrapper(String xpathStr, String textStr) throws InterruptedException {
 		Thread.sleep(1000);
+		System.out.println("Acting on Element " + xpathStr);
+
 		driver.findElement(By.xpath(xpathStr)).sendKeys(textStr);
 	}
 
@@ -257,14 +299,38 @@ public class FSATest {
 
 		touchWraper("//*[text() = 'WO-00000899']", "tap");
 		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'New Event']", "tap");
+		
+//		touchWraper("//*[text() = 'New Event']", "tap");
+//
+//		setDateWrapper("//*[@data-componentid ='ext-svmx-field-datetime-2']//input", "");
+//
+//		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "heyyy");
+//		sendKeyWrapper("//*[. = 'Description']//*[@class = 'x-input-el']", "heyyy");
+//		
+//		touchWraper("//*[text() = 'Save']", "tap");
+//		touchWraper("//*[text() = 'Yes']", "tap");
 
-		setDateWrapper("//*[@data-componentid ='ext-svmx-field-datetime-2']//input", "");
 		
-		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "heyyy");
-		sendKeyWrapper("//*[. = 'Description']//*[@class = 'x-input-el']", "heyyy");
+		touchWraper("//*[text() = 'Record T&M']", "tap");
 		
+		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+		touchWraper("//*[. = '12345']", "tap");
+		touchWraper("//*[. = 'Add Selected']", "tap");
+		
+		touchWraper("//*[contains(text(),'Travel (')]", "longpress");
+
+	
+		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "longpress");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		touchWraper("//*[text() = 'Done']", "tap");
+
 		touchWraper("//*[text() = 'Save']", "tap");
+		touchWraper("//*[text() = 'Yes']", "tap");
+		
 
 		/*
 		 * File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE); FileUtils.copyFile(scrFile, new File("/Users/Downloads/g2.jpg")); ;//*[contains(.,'Work Orders')]"))
