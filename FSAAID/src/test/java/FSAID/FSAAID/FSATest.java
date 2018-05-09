@@ -1,6 +1,7 @@
 package FSAID.FSAAID;
 
 import io.appium.java_client.MobileBy;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.ios.IOSDriver;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +28,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.touch.TouchActions;
@@ -35,12 +39,14 @@ import org.openqa.selenium.support.ui.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
+@Listeners({ ScreenshotUtility.class })
 
 public class FSATest {
 
-	@SuppressWarnings("rawtypes")
-	private IOSDriver driver;
+	static IOSDriver driver;
 	public WebDriverWait wait;
 	Set<String> contextNames;
 	public String nativeApp;
@@ -111,7 +117,7 @@ public class FSATest {
 			Thread.sleep(1000);
 			Integer count = 0;
 			// while the following loop runs, the DOM changes -
-			// page is refreshed, or element is removed and re-added
+			// page is refreshed if the element is removed and re-added
 			while (count < 7) {
 
 				count++;
@@ -125,20 +131,20 @@ public class FSATest {
 
 				elText = el.getText();
 				elTagname = el.getTagName();
+
 				// Try multiple times unless the coordinates are available for both
 				try {
-					if (xyPoint.getX() == 0 || xyPoint.getY() == 0) {
-						System.out.println("waiting...");
+					if (xyPoint.getX() == 0 && xyPoint.getY() == 0) {
+						System.out.println("waiting... for Element " + el);
 						Thread.sleep(1000);
 
-					} 
-//					else if (xyPoint.getY() == 0) {
-//						System.out.println("waiting...");
-//
-//						// SOmetimes the y coordinates are hidden under the screen space so tap on it and wait for it to generate a coordinate
-//						Thread.sleep(1000);
-//						xyPoint = el.getLocation();
-//					}
+					} else if (xyPoint.getY() == 0) {
+						System.out.println("waiting... for Element " + el);
+
+						// SOmetimes the y coordinates are hidden under the screen space so tap on it and wait for it to generate a coordinate
+						Thread.sleep(1000);
+						xyPoint = el.getLocation();
+					}
 
 					else {
 						break;
@@ -162,12 +168,13 @@ public class FSATest {
 
 	/**
 	 * Performs Tap, longpress and scroll
+	 * 
 	 * @param xpathStr
 	 * @param typeOfAction
 	 */
 	public void touchWraper(String xpathStr, String typeOfAction) {
 
-		FetchElementWrapper(xpathStr);
+		el = FetchElementWrapper(xpathStr);
 		TouchAction touch = new TouchAction(driver);
 		Integer xOffset = 15;
 		Integer yOffset = 18;
@@ -175,7 +182,7 @@ public class FSATest {
 		if (typeOfAction.toLowerCase().equals("tap")) {
 
 			touch.tap(xyPoint.getX() + xOffset, xyPoint.getY() + yOffset).release().perform();
-		
+
 		} else if (typeOfAction.toLowerCase().equals("longpress")) {
 
 			touch.longPress(xyPoint.getX() + yOffset, xyPoint.getY() + yOffset).release().perform();
@@ -195,6 +202,24 @@ public class FSATest {
 			// tapObject.put("y", String.valueOf(el.getSize().getHeight() / 2));
 			// tapObject.put("element", ((RemoteWebElement) el).getId());
 			// js.executeScript("mobile:tap", tapObject);
+		} else if (typeOfAction.toLowerCase().equals("click")) {
+			System.out.println("Acting on Id Name " + el);
+
+			el.click();
+
+			// touch.moveTo(xyPoint.getX(),xyPoint.getY()).release().perform();
+		} else if (typeOfAction.toLowerCase().equals("clickid")) {
+			System.out.println("Acting on Id Name " + driver.findElement(By.id(elId)));
+
+			driver.findElement(By.id(elId)).click();
+
+			// touch.moveTo(xyPoint.getX(),xyPoint.getY()).release().perform();
+		} else if (typeOfAction.toLowerCase().equals("clickxpath")) {
+			System.out.println("Acting on xpath Name " + driver.findElement(By.xpath(xpathStr)));
+
+			driver.findElement(By.xpath(xpathStr)).click();
+
+			// touch.moveTo(xyPoint.getX(),xyPoint.getY()).release().perform();
 		}
 
 		try {
@@ -216,9 +241,16 @@ public class FSATest {
 		return new SimpleDateFormat(format).format(cal.getTime());
 	}
 
+	/**
+	 * Sets and selects the selection Picker wheel value
+	 * 
+	 * @param xpathStr
+	 * @param value
+	 * @throws InterruptedException
+	 */
 	public void setSelectedWrapper(String xpathStr, String value) throws InterruptedException {
-		FetchElementWrapper(xpathStr);
-		driver.findElement(By.xpath(xpathStr)).click();
+		el = FetchElementWrapper(xpathStr);
+		el.click();
 		driver.context(nativeApp);
 
 		List<IOSElement> pickerField = (List<IOSElement>) driver.findElements(By.xpath("//XCUIElementTypePickerWheel"));
@@ -228,8 +260,15 @@ public class FSATest {
 
 	}
 
-	public void setDateWrapper(String xpathStr, String DateFormatArray) throws InterruptedException {
-		FetchElementWrapper(xpathStr);
+	/**
+	 * Sets the date in datepicker
+	 * 
+	 * @param xpathStr
+	 * @param DateFormatArray
+	 * @throws InterruptedException
+	 */
+	public void setDateWrapper(String xpathStr, String DateFormat) throws InterruptedException {
+		el = FetchElementWrapper(xpathStr);
 
 		DateFormat dateFormat2 = new SimpleDateFormat("dd");
 		Date date2 = new Date();
@@ -239,46 +278,87 @@ public class FSATest {
 
 		System.out.println("today = " + getDateTime(2019, 12, 2));
 
-		Thread.sleep(2000);
-		driver.findElement(By.xpath(xpathStr)).click();
+		el.click();
 
 		driver.context(nativeApp);
 
 		List<IOSElement> wheels = (List<IOSElement>) driver.findElements(By.xpath("//XCUIElementTypePickerWheel"));
 		System.out.println("Wheels = " + wheels.size() + " Wheels Name = " + wheels);
-		Thread.sleep(3000);
 
-		try {
+		if (DateFormat.toLowerCase().equals("today")) {
 
-			for (int i = 0; i < wheels.size(); i++) {
-				System.out.println(" Wheels Value = " + wheels.get(i).getAttribute("value"));
+			// do nothing
+			// TO set future dates
+			wheels.get(2).sendKeys("00");
+			if (wheels.get(3).getAttribute("value").equals("PM")) {
+				wheels.get(3).sendKeys("AM");
+			} else {
+				wheels.get(3).sendKeys("PM");
+
+			}
+			driver.findElement(By.name("Done")).click();
+
+		} else {
+
+			try {
+
+				for (int i = 0; i < wheels.size(); i++) {
+					System.out.println(" Wheels Value = " + wheels.get(i).getAttribute("value"));
+
+				}
+
+				wheels.get(0).sendKeys("Tue 4 Dec");
+
+				// driver.findElement(By.xpath("//*[. = 'End Date and Time']//*[@class = 'x-input-el']")).sendKeys("30/07/2019 4:45 PM");
+				// wheels.get(1).sendKeys("9");
+				wheels.get(2).sendKeys("55");
+
+				// TO set future dates
+				if (wheels.get(3).getAttribute("value").equals("PM")) {
+					wheels.get(3).sendKeys("AM");
+				} else {
+					wheels.get(3).sendKeys("PM");
+
+				}
+
+				driver.findElement(By.name("Done")).click();
 
 			}
 
-			wheels.get(0).sendKeys("Tue 4 Dec");
-			Thread.sleep(1000);
+			catch (Exception e) {
+				System.out.println("Date Picker Eception - " + e);
+			}
 
-			// driver.findElement(By.xpath("//*[. = 'End Date and Time']//*[@class = 'x-input-el']")).sendKeys("30/07/2019 4:45 PM");
-			wheels.get(1).sendKeys("9");
-
-			driver.findElement(By.name("Done")).click();
-
-		}
-
-		catch (Exception e) {
-			System.out.println("Date Picker Eception - " + e);
 		}
 		// driver.getKeyboard().pressKey(Keys.ENTER);
 		driver.context(webApp);
+		// So that the minutes change -- temp fix
+		Thread.sleep(3000);
 
 	}
 
+	/**
+	 * Enters the text after clearing the text field
+	 * 
+	 * @param xpathStr
+	 * @param textStr
+	 * @throws InterruptedException
+	 */
 	public void sendKeyWrapper(String xpathStr, String textStr) throws InterruptedException {
-		FetchElementWrapper(xpathStr);
-
-		driver.findElement(By.xpath(xpathStr)).sendKeys(textStr);
+		el = FetchElementWrapper(xpathStr);
+		el.clear();
+		el.sendKeys(textStr);
 	}
 
+	public void takeScreenShotWrapper() throws IOException {
+		Random rand = new Random();
+
+		int  n = rand.nextInt(500) + 1;
+		
+		  File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE); 
+		  FileUtils.copyFile(scrFile, new File("/auto/appium/sch/"+n+".jpg"));
+
+	}
 	public void login() throws InterruptedException, IOException {
 		driver.findElement(By.id("svmx_splash_signin")).click();
 		Thread.sleep(6000);
@@ -297,40 +377,82 @@ public class FSATest {
 
 	@Test
 	public void testiOS() throws InterruptedException, IOException {
-		// login();
 
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+		//login();
+takeScreenShotWrapper();
 		touchWraper("//*[text() = 'Explore']", "tap");
 		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
 
-		touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
+		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
+		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
+
+		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
 		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
+		sendKeyWrapper("//input[@placeholder='Search']", "WO-00001062");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 
-		touchWraper("//*[text() = 'WO-00000899']", "tap");
+		touchWraper("//*[text() = 'WO-00001062']", "tap");
+		
 		touchWraper("//*[text() = 'Actions']", "tap");
-
 		touchWraper("//*[text() = 'Record T&M']", "tap");
 		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
 
-		touchWraper("//*[@type='checkbox']", "tap");
+		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 		touchWraper("//*[. = 'Add Selected']", "tap");
+		
 
 		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
 		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
 		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
 		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
 		touchWraper("//*[text() = 'Done']", "tap");
 
-		touchWraper("//*[text() = 'Save']", "tap");
-		touchWraper("//*[text() = 'Yes']", "tap");
+		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "click");
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		// touchWraper("//*[. = 'Activity']//*[@class = 'x-label-text-el']", "tap"); setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup"); setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		touchWraper("//*[text() = 'Done']", "tap");
 
-		/*
-		 * File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE); FileUtils.copyFile(scrFile, new File("/Users/Downloads/g2.jpg"));
-		 */
+		touchWraper("//*[text() = 'Save']", "tap"); // touchWraper("//*[text() = 'Yes']", "tap");
+
+		touchWraper("//*[text() = 'Actions']", "tap");
+
+		touchWraper("//*[text() = 'Print Quote']", "tap");
+
+		try {
+			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00001062')]")) != null) {
+				System.out.println("Opened the document page successfully");
+			}
+		} catch (Exception e) {
+			System.out.println("Document error : " + e);
+		}
+		takeScreenShotWrapper();
+
+		touchWraper("//input[@value ='Done']", "click");
+		
+		//We need to roate to landscape before rotating to portraite 
+		driver.rotate(ScreenOrientation.LANDSCAPE);
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+		
+		 
 
 	}
 
