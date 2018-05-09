@@ -156,7 +156,7 @@ public class FSATest {
 
 			}
 
-			System.out.println("Acting on Element " + el + " Location === " + xyPoint + " id = " + elId + " class = " + elClass + " value = " + elValue + " Tagname = " + elTagname + " Text = " + elText);
+			System.out.println("Fetching Element Details" + el + " Location === " + xyPoint + " id = " + elId + " class = " + elClass + " value = " + elValue + " Tagname = " + elTagname + " Text = " + elText);
 
 		} catch (Exception e) {
 			System.out.println("DOM exception " + e);
@@ -180,15 +180,18 @@ public class FSATest {
 		Integer yOffset = 18;
 
 		if (typeOfAction.toLowerCase().equals("tap")) {
+			System.out.println("Acting on location Tap " + el);
 
 			touch.tap(xyPoint.getX() + xOffset, xyPoint.getY() + yOffset).release().perform();
 
 		} else if (typeOfAction.toLowerCase().equals("longpress")) {
+			System.out.println("Acting on location longpress " + el);
 
 			touch.longPress(xyPoint.getX() + yOffset, xyPoint.getY() + yOffset).release().perform();
 
 			// touch.moveTo(xyPoint.getX(),xyPoint.getY()).release().perform();
 		} else if (typeOfAction.toLowerCase().equals("scroll")) {
+			System.out.println("Acting on location scroll " + el);
 
 			touch.press(xyPoint.getX() + yOffset, xyPoint.getY() + yOffset).moveTo(xyPoint.getX() + yOffset, xyPoint.getY() + yOffset + 50).release().perform();
 			// touch.moveTo(xyPoint.getX(),xyPoint.getY()).release().perform();
@@ -203,23 +206,20 @@ public class FSATest {
 			// tapObject.put("element", ((RemoteWebElement) el).getId());
 			// js.executeScript("mobile:tap", tapObject);
 		} else if (typeOfAction.toLowerCase().equals("click")) {
-			System.out.println("Acting on Id Name " + el);
+			System.out.println("Acting on element click " + el);
 
 			el.click();
 
-			// touch.moveTo(xyPoint.getX(),xyPoint.getY()).release().perform();
 		} else if (typeOfAction.toLowerCase().equals("clickid")) {
-			System.out.println("Acting on Id Name " + driver.findElement(By.id(elId)));
+			System.out.println("Acting on Id click " + driver.findElement(By.id(elId)));
 
 			driver.findElement(By.id(elId)).click();
 
-			// touch.moveTo(xyPoint.getX(),xyPoint.getY()).release().perform();
 		} else if (typeOfAction.toLowerCase().equals("clickxpath")) {
-			System.out.println("Acting on xpath Name " + driver.findElement(By.xpath(xpathStr)));
+			System.out.println("Acting on xpath click " + driver.findElement(By.xpath(xpathStr)));
 
 			driver.findElement(By.xpath(xpathStr)).click();
 
-			// touch.moveTo(xyPoint.getX(),xyPoint.getY()).release().perform();
 		}
 
 		try {
@@ -275,9 +275,8 @@ public class FSATest {
 
 		String today = dateFormat2.format(date2);
 		System.out.println("today = " + today);
-
 		System.out.println("today = " + getDateTime(2019, 12, 2));
-
+		
 		el.click();
 
 		driver.context(nativeApp);
@@ -332,8 +331,7 @@ public class FSATest {
 		}
 		// driver.getKeyboard().pressKey(Keys.ENTER);
 		driver.context(webApp);
-		// So that the minutes change -- temp fix
-		Thread.sleep(3000);
+	
 
 	}
 
@@ -420,17 +418,21 @@ takeScreenShotWrapper();
 		touchWraper("//*[text() = 'Done']", "tap");
 
 		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "click");
+		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
 		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		// touchWraper("//*[. = 'Activity']//*[@class = 'x-label-text-el']", "tap"); setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup"); setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		
+		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
 		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
 		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
 		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		
 		touchWraper("//*[text() = 'Done']", "tap");
 
-		touchWraper("//*[text() = 'Save']", "tap"); // touchWraper("//*[text() = 'Yes']", "tap");
+		touchWraper("//*[text() = 'Save']", "tap");
+		// touchWraper("//*[text() = 'Yes']", "tap");
 
 		touchWraper("//*[text() = 'Actions']", "tap");
 
