@@ -38,7 +38,9 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -63,7 +65,7 @@ public class FSATest {
 	Point xyPoint = null;
 
 	@SuppressWarnings("rawtypes")
-	@BeforeMethod
+	@BeforeTest
 	public void setUp() throws MalformedURLException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability("platformName", "iOS");
@@ -167,7 +169,7 @@ public class FSATest {
 	}
 
 	/**
-	 * Performs Tap, longpress and scroll
+	 * Performs Tap, longpress, click and scroll
 	 * 
 	 * @param xpathStr
 	 * @param typeOfAction
@@ -358,18 +360,29 @@ public class FSATest {
 
 	}
 	public void login() throws InterruptedException, IOException {
-		driver.findElement(By.id("svmx_splash_signin")).click();
-		Thread.sleep(6000);
-		// driver.findElement(By.id("username")).sendKeys("Vinod.tharavath@ge.com");
-		// driver.findElement(By.id("password")).sendKeys("svmx123#");
-		driver.findElement(By.id("username")).sendKeys("fsa2@bugbash.com");
-		driver.findElement(By.id("password")).sendKeys("servicemax2");
-		driver.findElement(By.id("Login")).click();
+		
+		if(driver.findElements(By.id("svmx_splash_signin")).size() != 0) {
+			
+			driver.findElement(By.id("svmx_splash_signin")).click();
+			Thread.sleep(6000);
+			// driver.findElement(By.id("username")).sendKeys("Vinod.tharavath@ge.com");
+			// driver.findElement(By.id("password")).sendKeys("svmx123#");
+			driver.findElement(By.id("username")).sendKeys("vinod.tharavath@ge.com");
+			driver.findElement(By.id("password")).sendKeys("svmx123#");
+			driver.findElement(By.id("Login")).click();
 
-		Thread.sleep(8000);
-		driver.findElement(By.id("oaapprove")).click();
+			Thread.sleep(8000);
+			driver.findElement(By.id("oaapprove")).click();
+			System.out.println("Login Successfull");
+
+		}else {
+			//do nothing
+			System.out.println("Already Logged in skipping Login");
+		}
+		System.out.println("Waiting for Landing Page");
 
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text() = 'Calendar']")));
+
 		Thread.sleep(3000);
 	}
 
@@ -378,8 +391,8 @@ public class FSATest {
 
 		driver.rotate(ScreenOrientation.PORTRAIT);
 
-		//login();
-takeScreenShotWrapper();
+		login();
+		takeScreenShotWrapper();
 		touchWraper("//*[text() = 'Explore']", "tap");
 		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
 
@@ -388,10 +401,10 @@ takeScreenShotWrapper();
 
 		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
 		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00001062");
+		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 
-		touchWraper("//*[text() = 'WO-00001062']", "tap");
+		touchWraper("//*[text() = 'WO-00005081']", "tap");
 		
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
@@ -436,10 +449,10 @@ takeScreenShotWrapper();
 
 		touchWraper("//*[text() = 'Actions']", "tap");
 
-		touchWraper("//*[text() = 'Print Quote']", "tap");
+		touchWraper("//*[text() = 'Print Service Report']", "tap");
 
 		try {
-			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00001062')]")) != null) {
+			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
 				System.out.println("Opened the document page successfully");
 			}
 		} catch (Exception e) {
@@ -453,14 +466,340 @@ takeScreenShotWrapper();
 		driver.rotate(ScreenOrientation.LANDSCAPE);
 		driver.rotate(ScreenOrientation.PORTRAIT);
 
-		
-		 
 
 	}
+	@Test
+	public void testiOS2() throws InterruptedException, IOException {
 
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+		login();
+takeScreenShotWrapper();
+		touchWraper("//*[text() = 'Explore']", "tap");
+		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
+
+		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
+		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
+
+		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
+		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
+		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+
+		touchWraper("//*[text() = 'WO-00005081']", "tap");
+		
+		touchWraper("//*[text() = 'Actions']", "tap");
+		touchWraper("//*[text() = 'Record T&M']", "tap");
+		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+
+		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
+		touchWraper("//*[. = 'Add Selected']", "tap");
+		
+
+		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		touchWraper("//*[text() = 'Done']", "tap");
+
+		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		
+		touchWraper("//*[text() = 'Done']", "tap");
+
+		touchWraper("//*[text() = 'Save']", "tap");
+		// touchWraper("//*[text() = 'Yes']", "tap");
+
+		touchWraper("//*[text() = 'Actions']", "tap");
+
+		touchWraper("//*[text() = 'Print Service Report']", "tap");
+
+		try {
+			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
+				System.out.println("Opened the document page successfully");
+			}
+		} catch (Exception e) {
+			System.out.println("Document error : " + e);
+		}
+		takeScreenShotWrapper();
+
+		touchWraper("//input[@value ='Done']", "click");
+		
+		//We need to roate to landscape before rotating to portraite 
+		driver.rotate(ScreenOrientation.LANDSCAPE);
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+
+	}
+	@Test
+	public void testiOS3() throws InterruptedException, IOException {
+
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+		login();
+takeScreenShotWrapper();
+		touchWraper("//*[text() = 'Explore']", "tap");
+		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
+
+		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
+		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
+
+		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
+		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
+		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+
+		touchWraper("//*[text() = 'WO-00005081']", "tap");
+		
+		touchWraper("//*[text() = 'Actions']", "tap");
+		touchWraper("//*[text() = 'Record T&M']", "tap");
+		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+
+		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
+		touchWraper("//*[. = 'Add Selected']", "tap");
+		
+
+		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		touchWraper("//*[text() = 'Done']", "tap");
+
+		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		
+		touchWraper("//*[text() = 'Done']", "tap");
+
+		touchWraper("//*[text() = 'Save']", "tap");
+		// touchWraper("//*[text() = 'Yes']", "tap");
+
+		touchWraper("//*[text() = 'Actions']", "tap");
+
+		touchWraper("//*[text() = 'Print Service Report']", "tap");
+
+		try {
+			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
+				System.out.println("Opened the document page successfully");
+			}
+		} catch (Exception e) {
+			System.out.println("Document error : " + e);
+		}
+		takeScreenShotWrapper();
+
+		touchWraper("//input[@value ='Done']", "click");
+		
+		//We need to roate to landscape before rotating to portraite 
+		driver.rotate(ScreenOrientation.LANDSCAPE);
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+
+	}
+	@Test
+	public void testiOS4() throws InterruptedException, IOException {
+
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+		login();
+takeScreenShotWrapper();
+		touchWraper("//*[text() = 'Explore']", "tap");
+		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
+
+		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
+		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
+
+		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
+		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
+		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+
+		touchWraper("//*[text() = 'WO-00005081']", "tap");
+		
+		touchWraper("//*[text() = 'Actions']", "tap");
+		touchWraper("//*[text() = 'Record T&M']", "tap");
+		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+
+		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
+		touchWraper("//*[. = 'Add Selected']", "tap");
+		
+
+		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		touchWraper("//*[text() = 'Done']", "tap");
+
+		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		
+		touchWraper("//*[text() = 'Done']", "tap");
+
+		touchWraper("//*[text() = 'Save']", "tap");
+		// touchWraper("//*[text() = 'Yes']", "tap");
+
+		touchWraper("//*[text() = 'Actions']", "tap");
+
+		touchWraper("//*[text() = 'Print Service Report']", "tap");
+
+		try {
+			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
+				System.out.println("Opened the document page successfully");
+			}
+		} catch (Exception e) {
+			System.out.println("Document error : " + e);
+		}
+		takeScreenShotWrapper();
+
+		touchWraper("//input[@value ='Done']", "click");
+		
+		//We need to roate to landscape before rotating to portraite 
+		driver.rotate(ScreenOrientation.LANDSCAPE);
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+
+	}
+	@Test
+	public void testiOS5() throws InterruptedException, IOException {
+
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+		login();
+takeScreenShotWrapper();
+		touchWraper("//*[text() = 'Explore']", "tap");
+		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
+
+		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
+		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
+
+		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
+		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
+		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+
+		touchWraper("//*[text() = 'WO-00005081']", "tap");
+		
+		touchWraper("//*[text() = 'Actions']", "tap");
+		touchWraper("//*[text() = 'Record T&M']", "tap");
+		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+
+		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
+		touchWraper("//*[. = 'Add Selected']", "tap");
+		
+
+		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		touchWraper("//*[text() = 'Done']", "tap");
+
+		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
+		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		
+		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
+		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		
+		touchWraper("//*[text() = 'Done']", "tap");
+
+		touchWraper("//*[text() = 'Save']", "tap");
+		// touchWraper("//*[text() = 'Yes']", "tap");
+
+		touchWraper("//*[text() = 'Actions']", "tap");
+
+		touchWraper("//*[text() = 'Print Service Report']", "tap");
+
+		try {
+			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
+				System.out.println("Opened the document page successfully");
+			}
+		} catch (Exception e) {
+			System.out.println("Document error : " + e);
+		}
+		takeScreenShotWrapper();
+
+		touchWraper("//input[@value ='Done']", "click");
+		
+		//We need to roate to landscape before rotating to portraite 
+		driver.rotate(ScreenOrientation.LANDSCAPE);
+		driver.rotate(ScreenOrientation.PORTRAIT);
+
+
+	}
+	
 	@AfterMethod
 	public void tearDown() {
-		// driver.quit();
+		driver.close();
 	}
 
 }
