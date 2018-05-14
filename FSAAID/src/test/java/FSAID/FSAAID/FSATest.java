@@ -509,6 +509,7 @@ public class FSATest {
 		driver.rotate(ScreenOrientation.LANDSCAPE);
 		driver.rotate(ScreenOrientation.PORTRAIT);
 
+		
 
 	}
 	
