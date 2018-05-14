@@ -115,7 +115,7 @@ public class FSATest {
 	public WebElement FetchElementWrapper(String xpathStr) {
 
 		try {
-
+			el = null;
 			Thread.sleep(1000);
 			Integer count = 0;
 			// while the following loop runs, the DOM changes -
@@ -271,13 +271,13 @@ public class FSATest {
 	 */
 	public void setDateWrapper(String xpathStr, String DateFormat) throws InterruptedException {
 		el = FetchElementWrapper(xpathStr);
-
+		
+	
 		DateFormat dateFormat2 = new SimpleDateFormat("dd");
 		Date date2 = new Date();
 
-		String today = dateFormat2.format(date2);
-		System.out.println("today = " + today);
-		System.out.println("today = " + getDateTime(2019, 12, 2));
+		String futureStart = dateFormat2.format(date2);
+		System.out.println("futureStart = " +futureStart + " & " + date2);
 		
 		el.click();
 
@@ -285,26 +285,54 @@ public class FSATest {
 
 		List<IOSElement> wheels = (List<IOSElement>) driver.findElements(By.xpath("//XCUIElementTypePickerWheel"));
 		System.out.println("Wheels = " + wheels.size() + " Wheels Name = " + wheels);
+		for (int i = 0; i < wheels.size(); i++) {
+			System.out.println(" Wheels Value = " + wheels.get(i).getAttribute("value"));
 
-		if (DateFormat.toLowerCase().equals("today")) {
+		}
+		
+		if (DateFormat.toLowerCase().equals("default")) {
+			//Do nothing
+			driver.findElement(By.name("Done")).click();
+
+		}
+		else if (DateFormat.toLowerCase().equals("futurestart")) {
 
 			// do nothing
 			// TO set future dates
-			wheels.get(2).sendKeys("00");
-			if (wheels.get(3).getAttribute("value").equals("PM")) {
-				wheels.get(3).sendKeys("AM");
+			
+			//The return value is in string for mat 12 ,0 cliok, so we need to split it to get the integer value which later needs to be parsed to int
+			String[] SplitTime = wheels.get(1).getAttribute("value").split(" ");
+			if (SplitTime[0].equals("12")) {
+				wheels.get(1).sendKeys("1");
 			} else {
-				wheels.get(3).sendKeys("PM");
+				Integer tempInt = Integer.parseInt(SplitTime[0]) + 1;
+				wheels.get(1).sendKeys(tempInt.toString());
 
 			}
+			
+			wheels.get(2).sendKeys("01");
+			
+//			if (wheels.get(3).getAttribute("value").equals("PM")) {
+//				wheels.get(3).sendKeys("AM");
+//			} else {
+//				wheels.get(3).sendKeys("PM");
+//
+//			}
 			driver.findElement(By.name("Done")).click();
 
-		} else {
+		} else if (DateFormat.toLowerCase().equals("futureend")) {
 
 			try {
-
-				for (int i = 0; i < wheels.size(); i++) {
-					System.out.println(" Wheels Value = " + wheels.get(i).getAttribute("value"));
+			
+			
+				
+				//The return value is in string for mat 12 ,0 cliok, so we need to split it to get the integer value which later needs to be parsed to int
+				String[] SplitTime = wheels.get(1).getAttribute("value").split(" ");
+				if (SplitTime[0].equals("12")) {
+					wheels.get(1).sendKeys("1");
+				} else {
+					Integer tempInt = Integer.parseInt(SplitTime[0]) + 1;
+					wheels.get(1).sendKeys(tempInt.toString());
 
 				}
 
@@ -315,12 +343,12 @@ public class FSATest {
 				wheels.get(2).sendKeys("55");
 
 				// TO set future dates
-				if (wheels.get(3).getAttribute("value").equals("PM")) {
-					wheels.get(3).sendKeys("AM");
-				} else {
-					wheels.get(3).sendKeys("PM");
-
-				}
+//				if (wheels.get(3).getAttribute("value").equals("PM")) {
+//					wheels.get(3).sendKeys("PM");
+//				} else {
+//					wheels.get(3).sendKeys("AM");
+//
+//				}
 
 				driver.findElement(By.name("Done")).click();
 
@@ -404,89 +432,22 @@ public class FSATest {
 		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 
-		touchWraper("//*[text() = 'WO-00005081']", "tap");
+		touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 		
 		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'Record T&M']", "tap");
-		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
-
-		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
-		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		touchWraper("//*[. = 'Add Selected']", "tap");
-		
-
-		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		touchWraper("//*[text() = 'Done']", "tap");
-
-		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		
-		touchWraper("//*[text() = 'Done']", "tap");
-
+		touchWraper("//*[text() = 'New Event']", "tap");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
+		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
 		touchWraper("//*[text() = 'Save']", "tap");
-		// touchWraper("//*[text() = 'Yes']", "tap");
-
-		touchWraper("//*[text() = 'Actions']", "tap");
-
-		touchWraper("//*[text() = 'Print Service Report']", "tap");
-
-		try {
-			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
-				System.out.println("Opened the document page successfully");
-			}
-		} catch (Exception e) {
-			System.out.println("Document error : " + e);
-		}
-		takeScreenShotWrapper();
-
-		touchWraper("//input[@value ='Done']", "click");
 		
-		//We need to roate to landscape before rotating to portraite 
-		driver.rotate(ScreenOrientation.LANDSCAPE);
-		driver.rotate(ScreenOrientation.PORTRAIT);
+		if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
+			 touchWraper("//*[text() = 'Yes']", "tap");
+		}
 
-
-	}
-	@Test
-	public void testiOS2() throws InterruptedException, IOException {
-
-		driver.rotate(ScreenOrientation.PORTRAIT);
-
-		login();
-takeScreenShotWrapper();
-		touchWraper("//*[text() = 'Explore']", "tap");
-		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		touchWraper("//*[text() = 'WO-00005081']", "tap");
+		touchWraper("//*[text() = 'Calendar']", "tap");
+		
+		touchWraper("(//*[@class='sfmevent-title'][contains(.,'WO-00005081')])", "tap");
 		
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
@@ -506,8 +467,8 @@ takeScreenShotWrapper();
 		
 
 		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
 		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
 		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
 		touchWraper("//*[text() = 'Done']", "tap");
@@ -519,254 +480,8 @@ takeScreenShotWrapper();
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
 		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		
-		touchWraper("//*[text() = 'Done']", "tap");
-
-		touchWraper("//*[text() = 'Save']", "tap");
-		// touchWraper("//*[text() = 'Yes']", "tap");
-
-		touchWraper("//*[text() = 'Actions']", "tap");
-
-		touchWraper("//*[text() = 'Print Service Report']", "tap");
-
-		try {
-			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
-				System.out.println("Opened the document page successfully");
-			}
-		} catch (Exception e) {
-			System.out.println("Document error : " + e);
-		}
-		takeScreenShotWrapper();
-
-		touchWraper("//input[@value ='Done']", "click");
-		
-		//We need to roate to landscape before rotating to portraite 
-		driver.rotate(ScreenOrientation.LANDSCAPE);
-		driver.rotate(ScreenOrientation.PORTRAIT);
-
-
-	}
-	@Test
-	public void testiOS3() throws InterruptedException, IOException {
-
-		driver.rotate(ScreenOrientation.PORTRAIT);
-
-		login();
-takeScreenShotWrapper();
-		touchWraper("//*[text() = 'Explore']", "tap");
-		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		touchWraper("//*[text() = 'WO-00005081']", "tap");
-		
-		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'Record T&M']", "tap");
-		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
-
-		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
-		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		touchWraper("//*[. = 'Add Selected']", "tap");
-		
-
-		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		touchWraper("//*[text() = 'Done']", "tap");
-
-		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		
-		touchWraper("//*[text() = 'Done']", "tap");
-
-		touchWraper("//*[text() = 'Save']", "tap");
-		// touchWraper("//*[text() = 'Yes']", "tap");
-
-		touchWraper("//*[text() = 'Actions']", "tap");
-
-		touchWraper("//*[text() = 'Print Service Report']", "tap");
-
-		try {
-			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
-				System.out.println("Opened the document page successfully");
-			}
-		} catch (Exception e) {
-			System.out.println("Document error : " + e);
-		}
-		takeScreenShotWrapper();
-
-		touchWraper("//input[@value ='Done']", "click");
-		
-		//We need to roate to landscape before rotating to portraite 
-		driver.rotate(ScreenOrientation.LANDSCAPE);
-		driver.rotate(ScreenOrientation.PORTRAIT);
-
-
-	}
-	@Test
-	public void testiOS4() throws InterruptedException, IOException {
-
-		driver.rotate(ScreenOrientation.PORTRAIT);
-
-		login();
-takeScreenShotWrapper();
-		touchWraper("//*[text() = 'Explore']", "tap");
-		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		touchWraper("//*[text() = 'WO-00005081']", "tap");
-		
-		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'Record T&M']", "tap");
-		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
-
-		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
-		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		touchWraper("//*[. = 'Add Selected']", "tap");
-		
-
-		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		touchWraper("//*[text() = 'Done']", "tap");
-
-		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		
-		touchWraper("//*[text() = 'Done']", "tap");
-
-		touchWraper("//*[text() = 'Save']", "tap");
-		// touchWraper("//*[text() = 'Yes']", "tap");
-
-		touchWraper("//*[text() = 'Actions']", "tap");
-
-		touchWraper("//*[text() = 'Print Service Report']", "tap");
-
-		try {
-			if (driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
-				System.out.println("Opened the document page successfully");
-			}
-		} catch (Exception e) {
-			System.out.println("Document error : " + e);
-		}
-		takeScreenShotWrapper();
-
-		touchWraper("//input[@value ='Done']", "click");
-		
-		//We need to roate to landscape before rotating to portraite 
-		driver.rotate(ScreenOrientation.LANDSCAPE);
-		driver.rotate(ScreenOrientation.PORTRAIT);
-
-
-	}
-	@Test
-	public void testiOS5() throws InterruptedException, IOException {
-
-		driver.rotate(ScreenOrientation.PORTRAIT);
-
-		login();
-takeScreenShotWrapper();
-		touchWraper("//*[text() = 'Explore']", "tap");
-		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		touchWraper("//*[text() = 'WO-00005081']", "tap");
-		
-		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'Record T&M']", "tap");
-		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
-
-		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
-		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		touchWraper("//*[. = 'Add Selected']", "tap");
-		
-
-		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		touchWraper("//*[text() = 'Done']", "tap");
-
-		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "Today");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
 		sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
 		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
 		
