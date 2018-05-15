@@ -85,6 +85,8 @@ public class FSATest {
 		capabilities.setCapability("browserName", "iOS");
 		capabilities.setCapability("noReset", true);
 		capabilities.setCapability("newCommandTimeout", 15);
+		capabilities.setCapability("sendKeyStrategy","grouped");
+
 
 		// caps.setCapability("bundleid", "com.example.apple-samplecode.UICatalog");
 
@@ -292,6 +294,11 @@ public class FSATest {
 		
 		if (DateFormat.toLowerCase().equals("default")) {
 			//Do nothing
+			String SplitTime[] = wheels.get(2).getAttribute("value").split(" ");
+			//Forwarding minutes by 5
+				Integer tempInt = Integer.parseInt(SplitTime[0]) + 5;
+				wheels.get(2).sendKeys(tempInt.toString());
+
 			driver.findElement(By.name("Done")).click();
 
 		}
@@ -357,6 +364,12 @@ public class FSATest {
 			catch (Exception e) {
 				System.out.println("Date Picker Eception - " + e);
 			}
+
+		}else {
+			
+			wheels.get(0).setValue("Tue 15 May");
+
+			wheels.get(0).sendKeys("Tue 15 May");
 
 		}
 		// driver.getKeyboard().pressKey(Keys.ENTER);
@@ -436,8 +449,8 @@ public class FSATest {
 		
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'New Event']", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
 		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
 		touchWraper("//*[text() = 'Save']", "tap");
 		
