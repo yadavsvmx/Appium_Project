@@ -65,7 +65,7 @@ public class FSATest {
 	Point xyPoint = null;
 
 	@SuppressWarnings("rawtypes")
-	@BeforeTest
+	@BeforeMethod
 	public void setUp() throws MalformedURLException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability("platformName", "iOS");
@@ -155,6 +155,7 @@ public class FSATest {
 					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
+					System.out.println("Exception in Fetching Element : "+e);
 					e.printStackTrace();
 				}
 
@@ -165,7 +166,12 @@ public class FSATest {
 		} catch (Exception e) {
 			System.out.println("DOM exception " + e);
 		}
-
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return el;
 
 	}
@@ -312,7 +318,7 @@ public class FSATest {
 			if (SplitTime[0].equals("12")) {
 				wheels.get(1).sendKeys("1");
 			} else {
-				Integer tempInt = Integer.parseInt(SplitTime[0]) + 1;
+				Integer tempInt = Integer.parseInt(SplitTime[0]) + 5;
 				wheels.get(1).sendKeys(tempInt.toString());
 
 			}
@@ -330,8 +336,6 @@ public class FSATest {
 		} else if (DateFormat.toLowerCase().equals("futureend")) {
 
 			try {
-			
-			
 				
 				//The return value is in string for mat 12 ,0 cliok, so we need to split it to get the integer value which later needs to be parsed to int
 				String[] SplitTime = wheels.get(1).getAttribute("value").split(" ");
@@ -343,7 +347,7 @@ public class FSATest {
 
 				}
 
-				wheels.get(0).sendKeys("Tue 4 Dec");
+				wheels.get(0).sendKeys("Wed 16 May");
 
 				// driver.findElement(By.xpath("//*[. = 'End Date and Time']//*[@class = 'x-input-el']")).sendKeys("30/07/2019 4:45 PM");
 				// wheels.get(1).sendKeys("9");
@@ -367,9 +371,9 @@ public class FSATest {
 
 		}else {
 			
-			wheels.get(0).setValue("Tue 15 May");
-
-			wheels.get(0).sendKeys("Tue 15 May");
+//			wheels.get(0).setValue("Wed 16 May");
+//
+//			wheels.get(0).sendKeys("Wed 16 May");
 
 		}
 		// driver.getKeyboard().pressKey(Keys.ENTER);
@@ -391,6 +395,10 @@ public class FSATest {
 		el.sendKeys(textStr);
 	}
 
+	/**
+	 * Take a screenshot
+	 * @throws IOException
+	 */
 	public void takeScreenShotWrapper() throws IOException {
 		Random rand = new Random();
 
@@ -400,6 +408,7 @@ public class FSATest {
 		  FileUtils.copyFile(scrFile, new File("/auto/appium/sch/"+n+".jpg"));
 
 	}
+	
 	public void login() throws InterruptedException, IOException {
 		
 		if(driver.findElements(By.id("svmx_splash_signin")).size() != 0) {
@@ -449,8 +458,8 @@ public class FSATest {
 		
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'New Event']", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "");
+		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
+		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
 		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
 		touchWraper("//*[text() = 'Save']", "tap");
 		
@@ -460,7 +469,7 @@ public class FSATest {
 
 		touchWraper("//*[text() = 'Calendar']", "tap");
 		
-		touchWraper("(//*[@class='sfmevent-title'][contains(.,'WO-00005081')])", "tap");
+		touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 		
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
@@ -477,7 +486,6 @@ public class FSATest {
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 		touchWraper("//*[. = 'Add Selected']", "tap");
-		
 
 		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
@@ -499,12 +507,10 @@ public class FSATest {
 		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
 		
 		touchWraper("//*[text() = 'Done']", "tap");
-
 		touchWraper("//*[text() = 'Save']", "tap");
 		// touchWraper("//*[text() = 'Yes']", "tap");
 
 		touchWraper("//*[text() = 'Actions']", "tap");
-
 		touchWraper("//*[text() = 'Print Service Report']", "tap");
 
 		try {
@@ -514,16 +520,14 @@ public class FSATest {
 		} catch (Exception e) {
 			System.out.println("Document error : " + e);
 		}
+		
 		takeScreenShotWrapper();
-
 		touchWraper("//input[@value ='Done']", "click");
 		
 		//We need to roate to landscape before rotating to portraite 
 		driver.rotate(ScreenOrientation.LANDSCAPE);
 		driver.rotate(ScreenOrientation.PORTRAIT);
-
 		
-
 	}
 	
 	@AfterMethod
