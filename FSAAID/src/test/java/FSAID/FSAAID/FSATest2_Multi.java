@@ -86,6 +86,10 @@ public class FSATest2_Multi {
 		capabilities.setCapability("noReset", true);
 		capabilities.setCapability("newCommandTimeout", 15);
 		capabilities.setCapability("sendKeyStrategy","grouped");
+		capabilities.setCapability("autoAcceptAlerts",true);
+		capabilities.setCapability("autoGrantPermissions", true);
+
+
 
 
 		// caps.setCapability("bundleid", "com.example.apple-samplecode.UICatalog");
@@ -131,7 +135,7 @@ public class FSATest2_Multi {
 			Integer count = 0;
 			// while the following loop runs, the DOM changes -
 			// page is refreshed if the element is removed and re-added
-			while (count < 7) {
+			while (count < 3) {
 
 				count++;
 				try {
