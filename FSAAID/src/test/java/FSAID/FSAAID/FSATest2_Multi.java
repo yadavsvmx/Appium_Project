@@ -48,7 +48,7 @@ import org.testng.annotations.Test;
 
 public class FSATest2_Multi {
 
-	static IOSDriver driver;
+	static IOSDriver<IOSElement> driver;
 	public WebDriverWait wait;
 	Set<String> contextNames;
 	public String nativeApp;
@@ -89,12 +89,12 @@ public class FSATest2_Multi {
 		capabilities.setCapability("autoAcceptAlerts",true);
 		capabilities.setCapability("autoGrantPermissions", true);
 
-
+		capabilities.setCapability("clearSystemFiles",true);
 
 
 		// caps.setCapability("bundleid", "com.example.apple-samplecode.UICatalog");
 
-		driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		driver = new IOSDriver<IOSElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 		// Setting default timeouts to avoid page load issues
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		// already initialized to make wait public so not calling as "WebDriver
@@ -435,7 +435,7 @@ public class FSATest2_Multi {
 		Thread.sleep(3000);
 	}
 
-	@Test
+	@Test(priority = 0)
 	public void testiOS() throws InterruptedException, IOException {
 
 		driver.rotate(ScreenOrientation.PORTRAIT);
@@ -473,15 +473,15 @@ public class FSATest2_Multi {
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
 		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+		setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 		touchWraper("//*[. = 'Add Selected']", "tap");
@@ -496,7 +496,7 @@ public class FSATest2_Multi {
 
 		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
@@ -534,36 +534,14 @@ public class FSATest2_Multi {
 
 	}
 	
-	@Test
+	@Test(priority = 1)
 	public void testiOS1() throws InterruptedException, IOException {
 
 		driver.rotate(ScreenOrientation.PORTRAIT);
 
 		login();
 		takeScreenShotWrapper();
-		touchWraper("//*[text() = 'Explore']", "tap");
-		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 		
-		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'New Event']", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-		touchWraper("//*[text() = 'Save']", "tap");
-		
-		if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-			 touchWraper("//*[text() = 'Yes']", "tap");
-		}
 
 		touchWraper("//*[text() = 'Calendar']", "tap");
 		
@@ -572,15 +550,15 @@ public class FSATest2_Multi {
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
 		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+		setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 		touchWraper("//*[. = 'Add Selected']", "tap");
@@ -595,7 +573,7 @@ public class FSATest2_Multi {
 
 		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
@@ -633,7 +611,7 @@ public class FSATest2_Multi {
 
 	}
 	
-	@Test
+	@Test(priority = 3)
 
 	public void testiOS2() throws InterruptedException, IOException {
 
@@ -641,30 +619,7 @@ public class FSATest2_Multi {
 
 		login();
 		takeScreenShotWrapper();
-		touchWraper("//*[text() = 'Explore']", "tap");
-		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 		
-		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'New Event']", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-		touchWraper("//*[text() = 'Save']", "tap");
-		
-		if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-			 touchWraper("//*[text() = 'Yes']", "tap");
-		}
-
 		touchWraper("//*[text() = 'Calendar']", "tap");
 		
 		touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -672,15 +627,15 @@ public class FSATest2_Multi {
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
 		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+		setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 		touchWraper("//*[. = 'Add Selected']", "tap");
@@ -695,7 +650,7 @@ public class FSATest2_Multi {
 
 		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
@@ -733,7 +688,7 @@ public class FSATest2_Multi {
 
 	}
 	
-	@Test
+	@Test(priority = 4)
 
 	public void testiOS3() throws InterruptedException, IOException {
 
@@ -742,29 +697,7 @@ public class FSATest2_Multi {
 
 		login();
 		takeScreenShotWrapper();
-		touchWraper("//*[text() = 'Explore']", "tap");
-		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
-		
-		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'New Event']", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-		touchWraper("//*[text() = 'Save']", "tap");
-		
-		if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-			 touchWraper("//*[text() = 'Yes']", "tap");
-		}
+	
 
 		touchWraper("//*[text() = 'Calendar']", "tap");
 		
@@ -773,15 +706,15 @@ public class FSATest2_Multi {
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
 		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+		setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 		touchWraper("//*[. = 'Add Selected']", "tap");
@@ -796,7 +729,7 @@ public class FSATest2_Multi {
 
 		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
@@ -835,7 +768,7 @@ public class FSATest2_Multi {
 	}
 	
 	
-	@Test
+	@Test(priority = 5)
 
 public void testiOS4() throws InterruptedException, IOException {
 
@@ -844,29 +777,7 @@ public void testiOS4() throws InterruptedException, IOException {
 
 		login();
 		takeScreenShotWrapper();
-		touchWraper("//*[text() = 'Explore']", "tap");
-		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 		
-		touchWraper("//*[text() = 'Actions']", "tap");
-		touchWraper("//*[text() = 'New Event']", "tap");
-		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-		touchWraper("//*[text() = 'Save']", "tap");
-		
-		if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-			 touchWraper("//*[text() = 'Yes']", "tap");
-		}
 
 		touchWraper("//*[text() = 'Calendar']", "tap");
 		
@@ -875,15 +786,15 @@ public void testiOS4() throws InterruptedException, IOException {
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
 		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+		setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 		touchWraper("//*[. = 'Add Selected']", "tap");
@@ -898,7 +809,7 @@ public void testiOS4() throws InterruptedException, IOException {
 
 		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
@@ -936,7 +847,7 @@ public void testiOS4() throws InterruptedException, IOException {
 
 	}
 	
-@Test
+@Test(priority = 6)
 
 public void testiOS5() throws InterruptedException, IOException {
 
@@ -945,30 +856,7 @@ public void testiOS5() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -976,15 +864,15 @@ public void testiOS5() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -999,7 +887,7 @@ public void testiOS5() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1037,7 +925,7 @@ public void testiOS5() throws InterruptedException, IOException {
 
 }
 	
-@Test
+@Test(priority = 7)
 
 public void testiOS6() throws InterruptedException, IOException {
 
@@ -1046,29 +934,7 @@ public void testiOS6() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
 
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
@@ -1077,15 +943,15 @@ public void testiOS6() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1100,7 +966,7 @@ public void testiOS6() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1138,7 +1004,7 @@ public void testiOS6() throws InterruptedException, IOException {
 
 }
 
-@Test
+@Test(priority = 8)
 
 public void testiOS7() throws InterruptedException, IOException {
 
@@ -1147,30 +1013,7 @@ public void testiOS7() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -1178,15 +1021,15 @@ public void testiOS7() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1201,7 +1044,7 @@ public void testiOS7() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1239,7 +1082,7 @@ public void testiOS7() throws InterruptedException, IOException {
 
 }
 
-@Test
+@Test(priority = 9)
 
 public void testiOS8() throws InterruptedException, IOException {
 
@@ -1248,29 +1091,7 @@ public void testiOS8() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
 
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
@@ -1279,15 +1100,15 @@ public void testiOS8() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1302,7 +1123,7 @@ public void testiOS8() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1340,7 +1161,7 @@ public void testiOS8() throws InterruptedException, IOException {
 
 }
 
-@Test
+@Test(priority = 10)
 
 public void testiOS9() throws InterruptedException, IOException {
 
@@ -1349,30 +1170,7 @@ public void testiOS9() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -1380,15 +1178,15 @@ public void testiOS9() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1403,7 +1201,7 @@ public void testiOS9() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1441,7 +1239,7 @@ public void testiOS9() throws InterruptedException, IOException {
 
 }
 
-@Test
+@Test(priority = 11)
 
 public void testiOS10() throws InterruptedException, IOException {
 
@@ -1450,29 +1248,7 @@ public void testiOS10() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
 
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
@@ -1481,15 +1257,15 @@ public void testiOS10() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1504,7 +1280,7 @@ public void testiOS10() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1542,7 +1318,7 @@ public void testiOS10() throws InterruptedException, IOException {
 
 }
 
-@Test
+@Test(priority = 12)
 
 public void testiOS11() throws InterruptedException, IOException {
 
@@ -1551,30 +1327,7 @@ public void testiOS11() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -1582,15 +1335,15 @@ public void testiOS11() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1605,7 +1358,7 @@ public void testiOS11() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1643,7 +1396,7 @@ public void testiOS11() throws InterruptedException, IOException {
 
 }
 
-@Test
+@Test(priority = 13)
 public void testiOS12() throws InterruptedException, IOException {
 
 	
@@ -1651,30 +1404,7 @@ public void testiOS12() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -1682,15 +1412,15 @@ public void testiOS12() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1705,7 +1435,7 @@ public void testiOS12() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1744,7 +1474,7 @@ public void testiOS12() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 14)
 public void testiOS13() throws InterruptedException, IOException {
 
 	
@@ -1752,30 +1482,7 @@ public void testiOS13() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -1783,15 +1490,15 @@ public void testiOS13() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1806,7 +1513,7 @@ public void testiOS13() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1845,7 +1552,7 @@ public void testiOS13() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 15)
 public void testiOS14() throws InterruptedException, IOException {
 
 	
@@ -1853,30 +1560,7 @@ public void testiOS14() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -1884,15 +1568,15 @@ public void testiOS14() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -1907,7 +1591,7 @@ public void testiOS14() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -1946,7 +1630,7 @@ public void testiOS14() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 16)
 public void testiOS15() throws InterruptedException, IOException {
 
 	
@@ -1954,30 +1638,7 @@ public void testiOS15() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -1985,15 +1646,15 @@ public void testiOS15() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -2008,7 +1669,7 @@ public void testiOS15() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -2047,7 +1708,7 @@ public void testiOS15() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 17)
 public void testiOS16() throws InterruptedException, IOException {
 
 	
@@ -2055,30 +1716,7 @@ public void testiOS16() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -2086,15 +1724,15 @@ public void testiOS16() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -2109,7 +1747,7 @@ public void testiOS16() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -2148,7 +1786,7 @@ public void testiOS16() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 18)
 public void testiOS17() throws InterruptedException, IOException {
 
 	
@@ -2156,29 +1794,7 @@ public void testiOS17() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
 
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
@@ -2187,15 +1803,15 @@ public void testiOS17() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -2210,7 +1826,7 @@ public void testiOS17() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -2249,7 +1865,7 @@ public void testiOS17() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 19)
 public void testiOS18() throws InterruptedException, IOException {
 
 	
@@ -2257,29 +1873,7 @@ public void testiOS18() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
 
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
@@ -2288,15 +1882,15 @@ public void testiOS18() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -2311,7 +1905,7 @@ public void testiOS18() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -2350,7 +1944,7 @@ public void testiOS18() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 20)
 public void testiOS19() throws InterruptedException, IOException {
 
 	
@@ -2358,30 +1952,7 @@ public void testiOS19() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -2389,15 +1960,15 @@ public void testiOS19() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -2412,7 +1983,7 @@ public void testiOS19() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -2451,7 +2022,7 @@ public void testiOS19() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 21)
 public void testiOS20() throws InterruptedException, IOException {
 
 	
@@ -2459,30 +2030,7 @@ public void testiOS20() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
-
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
 	touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
@@ -2490,15 +2038,15 @@ public void testiOS20() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -2513,7 +2061,7 @@ public void testiOS20() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
@@ -2552,7 +2100,7 @@ public void testiOS20() throws InterruptedException, IOException {
 }
 
 
-@Test
+@Test(priority = 22)
 public void testiOS21() throws InterruptedException, IOException {
 
 	
@@ -2560,29 +2108,7 @@ public void testiOS21() throws InterruptedException, IOException {
 
 	login();
 	takeScreenShotWrapper();
-	touchWraper("//*[text() = 'Explore']", "tap");
-	// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-	// touchWraper("//*[text() = 'DC SEARCH']", "tap");
-	// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-	touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-	touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-	sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-	touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
 	
-	touchWraper("//*[text() = 'Actions']", "tap");
-	touchWraper("//*[text() = 'New Event']", "tap");
-	setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-	sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-	touchWraper("//*[text() = 'Save']", "tap");
-	
-	if(FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-		 touchWraper("//*[text() = 'Yes']", "tap");
-	}
 
 	touchWraper("//*[text() = 'Calendar']", "tap");
 	
@@ -2591,15 +2117,15 @@ public void testiOS21() throws InterruptedException, IOException {
 	touchWraper("//*[text() = 'Actions']", "tap");
 	touchWraper("//*[text() = 'Record T&M']", "tap");
 	touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+	setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 	touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 	touchWraper("//*[. = 'Add Selected']", "tap");
@@ -2614,7 +2140,7 @@ public void testiOS21() throws InterruptedException, IOException {
 
 	touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 	touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+	sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 	touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 	touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
