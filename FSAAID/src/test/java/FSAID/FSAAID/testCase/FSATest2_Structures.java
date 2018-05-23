@@ -1,4 +1,4 @@
-package FSAID.FSAAID.testCaseClass;
+package FSAID.FSAAID.testCase;
 
 import java.io.IOException;
 import org.openqa.selenium.By;
@@ -9,9 +9,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import FSAID.FSAAID.initiatorClass.Initiator;
-import FSAID.FSAAID.utilityClass.ScreenshotUtility;
-import FSAID.FSAAID.wrapperClass.Wrapper;
+import FSAID.FSAAID.initiator.Initiator;
+import FSAID.FSAAID.utility.ScreenshotUtility;
+import FSAID.FSAAID.wrapper.Wrapper;
 
 @Listeners({ ScreenshotUtility.class })
 

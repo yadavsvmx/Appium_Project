@@ -1,4 +1,4 @@
-package FSAID.FSAAID.initiatorClass;
+package FSAID.FSAAID.initiator;
 
 import java.net.MalformedURLException;
 import java.net.URL;

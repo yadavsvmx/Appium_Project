@@ -1,4 +1,4 @@
-package FSAID.FSAAID.wrapperClass;
+package FSAID.FSAAID.wrapper;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.ios.IOSElement;
 import java.io.File;
@@ -15,7 +15,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 
-import FSAID.FSAAID.initiatorClass.Initiator;
+import FSAID.FSAAID.initiator.Initiator;
 
 public class Wrapper {
 	Initiator init = new Initiator();

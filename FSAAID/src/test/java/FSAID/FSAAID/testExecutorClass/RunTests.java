@@ -1,6 +1,6 @@
 package FSAID.FSAAID.testExecutorClass;
 
-import FSAID.FSAAID.testCaseClass.*;
+import FSAID.FSAAID.testCase.*;
 
 
 public class RunTests {

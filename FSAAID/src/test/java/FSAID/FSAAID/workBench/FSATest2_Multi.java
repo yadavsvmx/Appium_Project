@@ -1,4 +1,4 @@
-package FSAID.FSAAID;
+package FSAID.FSAAID.workBench;
 
 import io.appium.java_client.MobileBy;
 
@@ -44,7 +44,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import FSAID.FSAAID.utilityClass.ScreenshotUtility;
+import FSAID.FSAAID.utility.ScreenshotUtility;
 
 @Listeners({ ScreenshotUtility.class })
 

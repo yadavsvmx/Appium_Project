@@ -1,4 +1,4 @@
-package FSAID.FSAAID;
+package FSAID.FSAAID.workBench;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

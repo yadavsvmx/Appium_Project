@@ -1,4 +1,4 @@
-package FSAID.FSAAID.utilityClass;
+package FSAID.FSAAID.utility;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import FSAID.FSAAID.initiatorClass.Initiator;
+import FSAID.FSAAID.initiator.Initiator;
 
 public class ScreenshotUtility implements ITestListener {
  // This method will execute before starting of Test suite.
