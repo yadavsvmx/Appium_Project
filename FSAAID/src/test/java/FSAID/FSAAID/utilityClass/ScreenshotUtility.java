@@ -1,4 +1,4 @@
-package FSAID.FSAAID;
+package FSAID.FSAAID.utilityClass;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+
+import FSAID.FSAAID.initiatorClass.Initiator;
 
 public class ScreenshotUtility implements ITestListener {
  // This method will execute before starting of Test suite.

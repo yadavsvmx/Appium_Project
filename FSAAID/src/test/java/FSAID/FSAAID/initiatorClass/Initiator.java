@@ -1,6 +1,5 @@
-package FSAID.FSAAID;
+package FSAID.FSAAID.initiatorClass;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
@@ -10,40 +9,32 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
 
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
 
+public class Initiator {
+	
+	public static IOSDriver<IOSElement> driver;
+	public static WebDriverWait wait;
+	public static Set<String> contextNames;
+	public static String nativeApp;
+	public static String webApp;
 
-@Listeners({ ScreenshotUtility.class })
-public class RunTests {
+	public static WebElement el = null;
+	public static String elId = null;
+
+	public static String elClass = null;
+	public static String elValue = null;
+
+	public static String elText = null;
+	public static String elTagname = null;
+	public static Point xyPoint = null;
+	
 	
 
-	FSATest singleTests = new FSATest();
-	FSATest2_Multi multiTests = new FSATest2_Multi();
-
-	
-	static IOSDriver driver;
-	public WebDriverWait wait;
-	Set<String> contextNames;
-	public String nativeApp;
-	public String webApp;
-
-	WebElement el = null;
-	String elId = null;
-
-	String elClass = null;
-	String elValue = null;
-
-	String elText = null;
-	String elTagname = null;
-	Point xyPoint = null;
-
-	@SuppressWarnings("rawtypes")
-	@BeforeTest
-	public void setUp() throws MalformedURLException {
+	public void setUp() {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability("platformName", "iOS");
 		capabilities.setCapability("platformVersion", "11.2.6");
@@ -63,11 +54,20 @@ public class RunTests {
 		capabilities.setCapability("noReset", true);
 		capabilities.setCapability("newCommandTimeout", 15);
 		capabilities.setCapability("sendKeyStrategy","grouped");
+		capabilities.setCapability("autoAcceptAlerts",true);
+		capabilities.setCapability("autoGrantPermissions", true);
+		capabilities.setCapability("locationServicesAuthorized", true);
+		capabilities.setCapability("clearSystemFiles",true);
 
 
 		// caps.setCapability("bundleid", "com.example.apple-samplecode.UICatalog");
 
-		driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		try {
+			driver = new IOSDriver<IOSElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// Setting default timeouts to avoid page load issues
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		// already initialized to make wait public so not calling as "WebDriver
@@ -84,10 +84,5 @@ public class RunTests {
 		webApp = contextNames.toArray()[1].toString();
 
 	}
-	
-@Test
-public void testRun() throws InterruptedException, IOException {
-	singleTests.testiOS();
-}
 
 }

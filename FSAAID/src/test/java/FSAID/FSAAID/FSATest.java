@@ -44,6 +44,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import FSAID.FSAAID.utilityClass.ScreenshotUtility;
+
 @Listeners({ ScreenshotUtility.class })
 
 public class FSATest {
