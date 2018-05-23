@@ -88,7 +88,7 @@ public class FSATest2_Multi {
 		capabilities.setCapability("sendKeyStrategy","grouped");
 		capabilities.setCapability("autoAcceptAlerts",true);
 		capabilities.setCapability("autoGrantPermissions", true);
-
+		capabilities.setCapability("locationServicesAuthorized", true);
 		capabilities.setCapability("clearSystemFiles",true);
 
 

@@ -48,7 +48,7 @@ import org.testng.annotations.Test;
 
 public class FSATest {
 
-	static IOSDriver driver;
+	static IOSDriver<IOSElement> driver;
 	public WebDriverWait wait;
 	Set<String> contextNames;
 	public String nativeApp;
@@ -88,13 +88,13 @@ public class FSATest {
 		capabilities.setCapability("sendKeyStrategy","grouped");
 		capabilities.setCapability("autoAcceptAlerts",true);
 		capabilities.setCapability("autoGrantPermissions", true);
-
-
+		capabilities.setCapability("locationServicesAuthorized", true);
+		capabilities.setCapability("clearSystemFiles",true);
 
 
 		// caps.setCapability("bundleid", "com.example.apple-samplecode.UICatalog");
 
-		driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		driver = new IOSDriver<IOSElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 		// Setting default timeouts to avoid page load issues
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		// already initialized to make wait public so not calling as "WebDriver
@@ -122,14 +122,25 @@ public class FSATest {
 
 		try {
 			el = null;
-			Thread.sleep(1000);
+			 elId = null;
+
+			 elClass = null;
+			 elValue = null;
+
+			 elText = null;
+			 elTagname = null;
+			 xyPoint = null;
+			 
+			 
 			Integer count = 0;
 			// while the following loop runs, the DOM changes -
 			// page is refreshed if the element is removed and re-added
 			while (count < 3) {
 
 				count++;
+				try {
 				el = driver.findElement(By.xpath(xpathStr));
+				
 
 				xyPoint = el.getLocation();
 				elId = el.getAttribute("id");
@@ -141,7 +152,7 @@ public class FSATest {
 				elTagname = el.getTagName();
 
 				// Try multiple times unless the coordinates are available for both
-				try {
+			
 					if (xyPoint.getX() == 0 && xyPoint.getY() == 0) {
 						System.out.println("waiting... for Element " + el);
 						Thread.sleep(1000);
@@ -157,25 +168,21 @@ public class FSATest {
 					else {
 						break;
 					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+				
+				}catch(Exception e) {
 					System.out.println("Exception in Fetching Element : "+e);
-					e.printStackTrace();
+					System.out.println("Retrying to Fetch Element ");
+
 				}
 
 			}
 
-			System.out.println("Fetching Element Details" + el + " Location === " + xyPoint + " id = " + elId + " class = " + elClass + " value = " + elValue + " Tagname = " + elTagname + " Text = " + elText);
+			System.out.println("Fetching Element Details " + el + " Location === " + xyPoint + " id = " + elId + " class = " + elClass + " value = " + elValue + " Tagname = " + elTagname + " Text = " + elText);
 
 		} catch (Exception e) {
 			System.out.println("DOM exception " + e);
 		}
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 		return el;
 
 	}
@@ -236,16 +243,7 @@ public class FSATest {
 
 		}
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// } catch (Exception e) {
-		// System.out.println("outer exception " + e);
-		// }
+	
 	}
 
 	public String getDateTime(int year, int month, int day) {
@@ -306,7 +304,7 @@ public class FSATest {
 			//Do nothing
 			String SplitTime[] = wheels.get(2).getAttribute("value").split(" ");
 			//Forwarding minutes by 5
-				Integer tempInt = Integer.parseInt(SplitTime[0]) + 5;
+				Integer tempInt = Integer.parseInt(SplitTime[0]) + 10;
 				wheels.get(2).sendKeys(tempInt.toString());
 
 			driver.findElement(By.name("Done")).click();
@@ -322,7 +320,7 @@ public class FSATest {
 			if (SplitTime[0].equals("12")) {
 				wheels.get(1).sendKeys("1");
 			} else {
-				Integer tempInt = Integer.parseInt(SplitTime[0]) + 5;
+				Integer tempInt = Integer.parseInt(SplitTime[0]) + 10;
 				wheels.get(1).sendKeys(tempInt.toString());
 
 			}
@@ -399,20 +397,17 @@ public class FSATest {
 		el.sendKeys(textStr);
 	}
 
-	/**
-	 * Take a screenshot
-	 * @throws IOException
-	 */
 	public void takeScreenShotWrapper() throws IOException {
 		Random rand = new Random();
 
 		int  n = rand.nextInt(500) + 1;
 		
-		  File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE); 
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		  DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy__hh_mm_ssaa");
+		
 		  FileUtils.copyFile(scrFile, new File("/auto/appium/sch/"+n+".jpg"));
 
 	}
-	
 	public void login() throws InterruptedException, IOException {
 		
 		if(driver.findElements(By.id("svmx_splash_signin")).size() != 0) {
@@ -440,16 +435,14 @@ public class FSATest {
 		Thread.sleep(3000);
 	}
 
-	@Test
+	@Test(priority = 0)
 	public void testiOS() throws InterruptedException, IOException {
-
 		driver.rotate(ScreenOrientation.PORTRAIT);
 
 		login();
 		takeScreenShotWrapper();
 		touchWraper("//*[text() = 'Explore']", "tap");
 		// touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
 		// touchWraper("//*[text() = 'DC SEARCH']", "tap");
 		// touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
 
@@ -478,18 +471,19 @@ public class FSATest {
 		touchWraper("//*[text() = 'Actions']", "tap");
 		touchWraper("//*[text() = 'Record T&M']", "tap");
 		touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		setSelectedWrapper("//*[@data-componentid='ext-svmx-field-picklist-2']//input", "Starts With");
+		setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
 
 		touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "GE Product");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
 		touchWraper("//*[. = 'Add Selected']", "tap");
+		
 
 		touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
@@ -500,7 +494,7 @@ public class FSATest {
 
 		touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
 		touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		sendKeyWrapper("(//input[@placeholder='Search'])[2]", "BlueLake Men Watch");
+		sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
 		touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
 		touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
@@ -511,10 +505,12 @@ public class FSATest {
 		sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
 		
 		touchWraper("//*[text() = 'Done']", "tap");
+
 		touchWraper("//*[text() = 'Save']", "tap");
 		// touchWraper("//*[text() = 'Yes']", "tap");
 
 		touchWraper("//*[text() = 'Actions']", "tap");
+
 		touchWraper("//*[text() = 'Print Service Report']", "tap");
 
 		try {
@@ -524,14 +520,16 @@ public class FSATest {
 		} catch (Exception e) {
 			System.out.println("Document error : " + e);
 		}
-		
 		takeScreenShotWrapper();
+
 		touchWraper("//input[@value ='Done']", "click");
 		
 		//We need to roate to landscape before rotating to portraite 
 		driver.rotate(ScreenOrientation.LANDSCAPE);
 		driver.rotate(ScreenOrientation.PORTRAIT);
+
 		
+
 	}
 	
 	@AfterMethod
