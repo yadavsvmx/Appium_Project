@@ -14,8 +14,17 @@ import org.testng.annotations.BeforeMethod;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 
+/**
+ * 
+ * @author yadavthyagaraj
+ * 
+ * @description: Initiator Class is used to instansiate all the driver capabilities and elements and global variables used across the code Available Global variables are as follows:
+ * 
+ * @GlobalParams: IOSDriver<IOSElement> driver; WebDriverWait wait; Set<String> contextNames; String nativeApp; String webApp; WebElement el; String elId; String elClass; String elValue; String elText; String elTagname; Point xyPoint;
+ *
+ */
 public class Initiator {
-	
+	// Static makes the variable global, since they do not change during the program
 	public static IOSDriver<IOSElement> driver;
 	public static WebDriverWait wait;
 	public static Set<String> contextNames;
@@ -31,8 +40,6 @@ public class Initiator {
 	public static String elText = null;
 	public static String elTagname = null;
 	public static Point xyPoint = null;
-	
-	
 
 	public void setUp() {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -53,12 +60,11 @@ public class Initiator {
 		capabilities.setCapability("browserName", "iOS");
 		capabilities.setCapability("noReset", true);
 		capabilities.setCapability("newCommandTimeout", 15);
-		capabilities.setCapability("sendKeyStrategy","grouped");
-		capabilities.setCapability("autoAcceptAlerts",true);
+		capabilities.setCapability("sendKeyStrategy", "grouped");
+		capabilities.setCapability("autoAcceptAlerts", true);
 		capabilities.setCapability("autoGrantPermissions", true);
 		capabilities.setCapability("locationServicesAuthorized", true);
-		capabilities.setCapability("clearSystemFiles",true);
-
+		capabilities.setCapability("clearSystemFiles", true);
 
 		// caps.setCapability("bundleid", "com.example.apple-samplecode.UICatalog");
 

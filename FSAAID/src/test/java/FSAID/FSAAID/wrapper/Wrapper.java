@@ -17,6 +17,14 @@ import org.openqa.selenium.WebElement;
 
 import FSAID.FSAAID.initiator.Initiator;
 
+/**
+ * 
+ * @author yadavthyagaraj
+ *
+ * @description The wrapper class contains all the methods and relevant complexities involved in fetching and performing actions on the elements
+ *
+ *
+ */
 public class Wrapper {
 	Initiator init = new Initiator();
 
