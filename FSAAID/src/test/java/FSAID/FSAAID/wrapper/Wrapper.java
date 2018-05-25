@@ -309,8 +309,19 @@ public class Wrapper {
 			 */
 			public void sendKeyWrapper(String xpathStr, String textStr) throws InterruptedException {
 				init.el = FetchElementWrapper(xpathStr);
+				try {
 				init.el.clear();
+				}catch(Exception e) {
+					System.out.println("Send Keys Eception - " + e);
+
+				}
+				
+				try {
 				init.el.sendKeys(textStr);
+				}catch(Exception e) {
+					System.out.println("Send Keys Eception - " + e);
+
+				}
 			}
 
 			public void takeScreenShotWrapper() throws IOException {

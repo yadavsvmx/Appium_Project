@@ -10,6 +10,9 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import FSAID.FSAAID.initiator.Initiator;
+import FSAID.FSAAID.objectRepo.pg_calendar;
+import FSAID.FSAAID.objectRepo.pg_explore;
+import FSAID.FSAAID.objectRepo.pg_login;
 import FSAID.FSAAID.utility.ScreenshotUtility;
 import FSAID.FSAAID.wrapper.Wrapper;
 
@@ -30,18 +33,18 @@ public class FSATest_1 {
 	
 	public void login() throws InterruptedException, IOException {
 		
-		if(init.driver.findElements(By.id("svmx_splash_signin")).size() != 0) {
+		if(init.driver.findElements(By.id(pg_login.btn_signin)).size() != 0) {
 			
-			init.driver.findElement(By.id("svmx_splash_signin")).click();
+			init.driver.findElement(By.id(pg_login.btn_signin)).click();
 			Thread.sleep(6000);
 			// init.driver.findElement(By.id("username")).sendKeys("Vinod.tharavath@ge.com");
 			// init.driver.findElement(By.id("password")).sendKeys("svmx123#");
-			init.driver.findElement(By.id("username")).sendKeys("vinod.tharavath@ge.com");
-			init.driver.findElement(By.id("password")).sendKeys("svmx123#");
-			init.driver.findElement(By.id("Login")).click();
+			init.driver.findElement(By.id(pg_login.txt_username)).sendKeys("vinod.tharavath@ge.com");
+			init.driver.findElement(By.id(pg_login.txt_password)).sendKeys("svmx123#");
+			init.driver.findElement(By.id(pg_login.btn_Login)).click();
 
 			Thread.sleep(8000);
-			init.driver.findElement(By.id("oaapprove")).click();
+			init.driver.findElement(By.id(pg_login.btn_oaapprove)).click();
 			System.out.println("Login Successfull");
 
 		}else {
@@ -50,7 +53,7 @@ public class FSATest_1 {
 		}
 		System.out.println("Waiting for Landing Page");
 
-		init.wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text() = 'Calendar']")));
+		init.wait.until(ExpectedConditions.elementToBeClickable(By.xpath(pg_calendar.btn_calendar)));
 
 		Thread.sleep(3000);
 	}
@@ -62,78 +65,69 @@ public class FSATest_1 {
 
 		login();
 		wrpr.takeScreenShotWrapper();
-		wrpr.touchWraper("//*[text() = 'Explore']", "tap");
+		//wrpr.touchWraper(pg_explore.btn_explore, "tap");
 		// wrpr.touchWraper("//div[. = 'AppiumSearch']/..", "tap");
 
 		// wrpr.touchWraper("//*[text() = 'DC SEARCH']", "tap");
 		// wrpr.touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
 
-		wrpr.touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		wrpr.touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		wrpr.touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
+//		wrpr.touchWraper("//*[text() = 'Work Order Search 2']", "tap");
+//		wrpr.touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
+//		wrpr.sendKeyWrapper(pg_explore.txt_search, "WO-00005081");
+//		wrpr.touchWraper(pg_explore.btn_search, "tap");
+//
+//		wrpr.touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
+//		
+		pg_explore.createEvent("Work Order Search 2", "WO-00005081", "default", "default", "new event");
 		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'New Event']", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		wrpr.sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		
-		if(wrpr.FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-			 wrpr.touchWraper("//*[text() = 'Yes']", "tap");
-		}
-
-		wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+		wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 		
 		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-		wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
+		wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+		wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+		wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+		wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 		
 
-		wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 		
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+		wrpr.touchWraper(pg_explore.btn_save, "tap");
+		// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+		wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 		try {
 			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -144,7 +138,7 @@ public class FSATest_1 {
 		}
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper("//input[@value ='Done']", "click");
+		wrpr.touchWraper(pg_explore.btn_report_done, "click");
 		
 		//We need to roate to landscape before rotating to portraite 
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -163,54 +157,54 @@ public class FSATest_1 {
 		wrpr.takeScreenShotWrapper();
 		
 
-		wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+		wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 		
 		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-		wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
+		wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+		wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+		wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+		wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 		
 
-		wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 		
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+		wrpr.touchWraper(pg_explore.btn_save, "tap");
+		// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+		wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 		try {
 			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -221,7 +215,7 @@ public class FSATest_1 {
 		}
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper("//input[@value ='Done']", "click");
+		wrpr.touchWraper(pg_explore.btn_report_done, "click");
 		
 		//We need to roate to landscape before rotating to portraite 
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -240,54 +234,54 @@ public class FSATest_1 {
 		login();
 		wrpr.takeScreenShotWrapper();
 		
-		wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+		wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 		
 		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-		wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
+		wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+		wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+		wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+		wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 		
 
-		wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 		
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+		wrpr.touchWraper(pg_explore.btn_save, "tap");
+		// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+		wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 		try {
 			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -298,7 +292,7 @@ public class FSATest_1 {
 		}
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper("//input[@value ='Done']", "click");
+		wrpr.touchWraper(pg_explore.btn_report_done, "click");
 		
 		//We need to roate to landscape before rotating to portraite 
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -319,54 +313,54 @@ public class FSATest_1 {
 		wrpr.takeScreenShotWrapper();
 	
 
-		wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+		wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 		
 		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-		wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
+		wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+		wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+		wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+		wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 		
 
-		wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 		
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+		wrpr.touchWraper(pg_explore.btn_save, "tap");
+		// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+		wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 		try {
 			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -377,7 +371,7 @@ public class FSATest_1 {
 		}
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper("//input[@value ='Done']", "click");
+		wrpr.touchWraper(pg_explore.btn_report_done, "click");
 		
 		//We need to roate to landscape before rotating to portraite 
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -399,54 +393,54 @@ public void testiOS4() throws InterruptedException, IOException {
 		wrpr.takeScreenShotWrapper();
 		
 
-		wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+		wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 		
 		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-		wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
+		wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+		wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+		wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+		wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 		
 
-		wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+		wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+		wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+		wrpr.touchWraper(pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 		
-		wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+		wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+		wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 		
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+		wrpr.touchWraper(pg_explore.btn_save, "tap");
+		// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+		wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-		wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+		wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 		try {
 			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -457,7 +451,7 @@ public void testiOS4() throws InterruptedException, IOException {
 		}
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper("//input[@value ='Done']", "click");
+		wrpr.touchWraper(pg_explore.btn_report_done, "click");
 		
 		//We need to roate to landscape before rotating to portraite 
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -477,54 +471,54 @@ public void testiOS5() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -535,7 +529,7 @@ public void testiOS5() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -556,54 +550,54 @@ public void testiOS6() throws InterruptedException, IOException {
 	wrpr.takeScreenShotWrapper();
 	
 
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -614,7 +608,7 @@ public void testiOS6() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -634,54 +628,54 @@ public void testiOS7() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -692,7 +686,7 @@ public void testiOS7() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -713,54 +707,54 @@ public void testiOS8() throws InterruptedException, IOException {
 	wrpr.takeScreenShotWrapper();
 	
 
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -771,7 +765,7 @@ public void testiOS8() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -791,54 +785,54 @@ public void testiOS9() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -849,7 +843,7 @@ public void testiOS9() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -870,54 +864,54 @@ public void testiOS10() throws InterruptedException, IOException {
 	wrpr.takeScreenShotWrapper();
 	
 
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -928,7 +922,7 @@ public void testiOS10() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -948,54 +942,54 @@ public void testiOS11() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1006,7 +1000,7 @@ public void testiOS11() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1025,54 +1019,54 @@ public void testiOS12() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1083,7 +1077,7 @@ public void testiOS12() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1103,54 +1097,54 @@ public void testiOS13() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1161,7 +1155,7 @@ public void testiOS13() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1181,54 +1175,54 @@ public void testiOS14() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1239,7 +1233,7 @@ public void testiOS14() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1259,54 +1253,54 @@ public void testiOS15() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1317,7 +1311,7 @@ public void testiOS15() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1337,54 +1331,54 @@ public void testiOS16() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1395,7 +1389,7 @@ public void testiOS16() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1416,54 +1410,54 @@ public void testiOS17() throws InterruptedException, IOException {
 	wrpr.takeScreenShotWrapper();
 	
 
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1474,7 +1468,7 @@ public void testiOS17() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1495,54 +1489,54 @@ public void testiOS18() throws InterruptedException, IOException {
 	wrpr.takeScreenShotWrapper();
 	
 
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1553,7 +1547,7 @@ public void testiOS18() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1573,54 +1567,54 @@ public void testiOS19() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1631,7 +1625,7 @@ public void testiOS19() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1651,54 +1645,54 @@ public void testiOS20() throws InterruptedException, IOException {
 	login();
 	wrpr.takeScreenShotWrapper();
 	
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1709,7 +1703,7 @@ public void testiOS20() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -1730,54 +1724,54 @@ public void testiOS21() throws InterruptedException, IOException {
 	wrpr.takeScreenShotWrapper();
 	
 
-	wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
+	wrpr.touchWraper(pg_calendar.btn_calendar, "tap");
 	
 	wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
 	
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-	wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-	wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
+	wrpr.touchWraper(pg_explore.btn_recordTM, "tap");
+	wrpr.touchWraper(pg_explore.btn_parts_add, "tap");
+	wrpr.setSelectedWrapper(pg_explore.txt_picker_search, "Starts With");
 
 	wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "GE Product");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-	wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
+	wrpr.touchWraper(pg_explore.btn_picklist_addSelected, "tap");
 	
 
-	wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_travel_add, "tap");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
+	wrpr.touchWraper(pg_explore.btn_labour_add, "tap");
 	wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-	wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-	wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
+	wrpr.sendKeyWrapper(pg_explore.btn_picklist_serach, "BlueLake Men Watch");
+	wrpr.touchWraper(pg_explore.btn_search, "tap");
 	wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
 	
-	wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-	wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-	wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-	wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-	wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
+	wrpr.setSelectedWrapper(pg_explore.btn_activityType, "Cleanup");
+	wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, "futureStart");
+	wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, "futureEnd");
+	wrpr.sendKeyWrapper(pg_explore.txt_lineQty, "100");
+	wrpr.sendKeyWrapper(pg_explore.txt_linePricePerUnit, "20");
 	
-	wrpr.touchWraper("//*[text() = 'Done']", "tap");
+	wrpr.touchWraper(pg_explore.btn_done, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Save']", "tap");
-	// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+	wrpr.touchWraper(pg_explore.btn_save, "tap");
+	// wrpr.touchWraper(pg_explore.btn_yes, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+	wrpr.touchWraper(pg_explore.btn_actions, "tap");
 
-	wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+	wrpr.touchWraper(pg_explore.btn_printServiceReport, "tap");
 
 	try {
 		if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
@@ -1788,7 +1782,7 @@ public void testiOS21() throws InterruptedException, IOException {
 	}
 	wrpr.takeScreenShotWrapper();
 
-	wrpr.touchWraper("//input[@value ='Done']", "click");
+	wrpr.touchWraper(pg_explore.btn_report_done, "click");
 	
 	//We need to roate to landscape before rotating to portraite 
 	init.driver.rotate(ScreenOrientation.LANDSCAPE);
