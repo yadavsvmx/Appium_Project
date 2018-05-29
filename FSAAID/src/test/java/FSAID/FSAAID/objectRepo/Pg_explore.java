@@ -2,7 +2,7 @@ package FSAID.FSAAID.objectRepo;
 import FSAID.FSAAID.initiator.Initiator;
 import FSAID.FSAAID.wrapper.*;
 
-public class pg_explore {
+public class Pg_explore {
 	
 	Initiator init = new Initiator();
 	static Wrapper wrpr = new Wrapper();
@@ -35,7 +35,7 @@ public class pg_explore {
 	
 
 	public static void navigateToExplore() {
-		wrpr.touchWraper(pg_explore.btn_explore, "tap");
+		wrpr.touchWraper(Pg_explore.btn_explore, "tap");
 		
 	}
 	
@@ -44,7 +44,7 @@ public class pg_explore {
 		wrpr.touchWraper("//*[text() = '"+searchName+"']", "tap");
 		wrpr.touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
 		try {
-			wrpr.sendKeyWrapper(pg_explore.txt_search, workOrderNumber);
+			wrpr.sendKeyWrapper(Pg_explore.txt_search, workOrderNumber);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,23 +55,23 @@ public class pg_explore {
 	
 	public static void searchAndSelectWorOrder(String searchName,String workOrderNumber) {
 		searchForWorOrder(searchName, workOrderNumber);
-		wrpr.touchWraper(pg_explore.btn_search, "tap");
+		wrpr.touchWraper(Pg_explore.btn_search, "tap");
 		wrpr.touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'"+workOrderNumber+"')]", "tap");
 		
 	}
 	
 	public static void createEvent(String searchName,String workOrderNumber,String startDate,String endDate,String Subject) throws InterruptedException {
-		pg_explore.searchAndSelectWorOrder(searchName,workOrderNumber) ;
+		Pg_explore.searchAndSelectWorOrder(searchName,workOrderNumber) ;
 
-		wrpr.touchWraper(pg_explore.btn_actions, "tap");
-		wrpr.touchWraper(pg_explore.btn_newEvent, "tap");
-		wrpr.setDateWrapper(pg_explore.txt_startDateAndTime, startDate);
-		wrpr.setDateWrapper(pg_explore.txt_endDateAndTime, endDate);
-		wrpr.sendKeyWrapper(pg_explore.txt_subject, Subject);
-		wrpr.touchWraper(pg_explore.btn_save, "tap");
+		wrpr.touchWraper(Pg_explore.btn_actions, "tap");
+		wrpr.touchWraper(Pg_explore.btn_newEvent, "tap");
+		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, startDate);
+		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, endDate);
+		wrpr.sendKeyWrapper(Pg_explore.txt_subject, Subject);
+		wrpr.touchWraper(Pg_explore.btn_save, "tap");
 		
-		if(wrpr.FetchElementWrapper(pg_explore.btn_yes) != null) {
-			 wrpr.touchWraper(pg_explore.btn_yes, "tap");
+		if(wrpr.FetchElementWrapper(Pg_explore.btn_yes) != null) {
+			 wrpr.touchWraper(Pg_explore.btn_yes, "tap");
 		}
 		
 	}

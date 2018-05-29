@@ -338,10 +338,10 @@ public class Wrapper {
 	 * @param sahiScriptFilePath
 	 * @throws IOException
 	 */
-	public void execSahiScript(String sahiScriptFilePath) throws IOException {
-		//init.driver.close();
+	public void execSahiScript(String sahiScriptFilePath)  {
+		try {
+			
 		System.out.println("Executing Sahi scripts please wait for completion !");
-
 		// create a temp file as a shell or bat for execution
 		File file = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/testFile1.sh");
 
@@ -356,26 +356,30 @@ public class Wrapper {
 		FileWriter writer = new FileWriter(file);
 		writer.write("#!/bin/bash \n");
 		writer.write("cd /auto/sahi_pro/userdata/bin \n");
-		writer.write("./testrunner.sh " + sahiScriptFilePath + " https://test.salesfroce.com chrome");
+		writer.write("./testrunner.sh " + sahiScriptFilePath + " https://test.salesforce.com chrome");
 		writer.close();
 		//make it executable
 		Runtime.getRuntime().exec("chmod u+x " + file);
 
 		// File fileExec = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/testCase/testFile1.sh");
 		//// This will execute the scripts asynchronously
-		// Runtime.getRuntime().exec(new String[]{"/bin/sh" ,"-c", file.getPath()});
+		//Runtime.getRuntime().exec(new String[]{"/bin/sh" ,"-c", file.getPath()});
 
 		// This will execute the scripts synchronously
 		try {
 			ProcessBuilder pb = new ProcessBuilder(file.getPath());
 			Process p = pb.start(); // Start the process.
 			p.waitFor(); // Wait for the process to finish.
-			System.out.println("Script executed successfully");
+			
+			System.out.println("Script executed successfully "+ p.exitValue());
 		} catch (Exception e) {
 			System.out.println("Script executed FAILURE !!! "+e);
 		}
 		
 
+	}catch (Exception e) {
+		System.out.println("Script executed FAILURE !!! "+e);
+	}
 	}
 
 }

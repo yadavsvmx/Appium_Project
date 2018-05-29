@@ -1,6 +1,6 @@
 package FSAID.FSAAID.objectRepo;
 
-public class pg_calendar {
+public class Pg_calendar {
 	public static String btn_calendar = "//*[text() = 'Calendar']";
 
 
