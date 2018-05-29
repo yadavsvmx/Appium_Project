@@ -1,0 +1,1 @@
+cd /auto/sahi_pro/userdata/bin/userdata/bin/auto/sahi_pro/userdata/bin/userdata/bin testrunner.bat /auto/sahi_pro/userdata/scripts/Sahi_Project/svmx/test_lab/test_cases/backOffice/dummy1.sah http://myappdomain/startpage.jsp chrome
