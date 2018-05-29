@@ -339,10 +339,11 @@ public class Wrapper {
 	 * @throws IOException
 	 */
 	public void execSahiScript(String sahiScriptFilePath) throws IOException {
+		//init.driver.close();
 		System.out.println("Executing Sahi scripts please wait for completion !");
 
 		// create a temp file as a shell or bat for execution
-		File file = new File("/auto/temp/testFile1.sh");
+		File file = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/testFile1.sh");
 
 		// Create the file
 		if (file.createNewFile()) {
@@ -355,7 +356,7 @@ public class Wrapper {
 		FileWriter writer = new FileWriter(file);
 		writer.write("#!/bin/bash \n");
 		writer.write("cd /auto/sahi_pro/userdata/bin \n");
-		writer.write("./testrunner.sh " + sahiScriptFilePath + "https://test.salesfroce.com chrome");
+		writer.write("./testrunner.sh " + sahiScriptFilePath + " https://test.salesfroce.com chrome");
 		writer.close();
 		//make it executable
 		Runtime.getRuntime().exec("chmod u+x " + file);
@@ -373,6 +374,7 @@ public class Wrapper {
 		} catch (Exception e) {
 			System.out.println("Script executed FAILURE !!! "+e);
 		}
+		
 
 	}
 

@@ -29,14 +29,14 @@ public class FSATest_1 {
 	@BeforeMethod
 	public void setup() throws IOException {
 
-		wrpr = new Wrapper();
+	
 		init = new Initiator();
 		init.setUp();
+		wrpr = new Wrapper();
 
 	}
 
 	public void login() throws InterruptedException, IOException {
-		wrpr.execSahiScript("/auto/sahi_pro/userdata/scripts/Sahi_Project/svmx/test_lab/test_cases/backOffice/dummy1.sah");
 		if (init.driver.findElements(By.id(pg_login.btn_signin)).size() != 0) {
 
 			init.driver.findElement(By.id(pg_login.btn_signin)).click();
@@ -64,6 +64,8 @@ public class FSATest_1 {
 
 	@Test(priority = 0)
 	public void testiOS() throws InterruptedException, IOException {
+
+		wrpr.execSahiScript("/auto/sahi_pro/userdata/scripts/Sahi_Project/svmx/test_lab/test_cases/backOffice/dummy1.sah");
 
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
