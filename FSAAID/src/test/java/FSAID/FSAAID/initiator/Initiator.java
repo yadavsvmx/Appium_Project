@@ -59,7 +59,7 @@ public class Initiator {
 		capabilities.setCapability("autoWebview", true);
 		capabilities.setCapability("browserName", "iOS");
 		capabilities.setCapability("noReset", true);
-		capabilities.setCapability("newCommandTimeout", "4500");
+		capabilities.setCapability("newCommandTimeout", 60);
 		capabilities.setCapability("sendKeyStrategy", "grouped");
 		capabilities.setCapability("autoAcceptAlerts", true);
 		capabilities.setCapability("autoGrantPermissions", true);
