@@ -13,49 +13,72 @@ import org.testng.annotations.Test;
 
 import FSAID.FSAAID.initiator.Initiator;
 import FSAID.FSAAID.objectRepo.Pg_login;
+import FSAID.FSAAID.objectRepo.Pg_tools;
 import FSAID.FSAAID.objectRepo.Pg_calendar;
 import FSAID.FSAAID.objectRepo.Pg_explore;
+import FSAID.FSAAID.utility.ApiServices;
 import FSAID.FSAAID.utility.ScreenshotUtility;
 import FSAID.FSAAID.wrapper.Wrapper;
 
-@Listeners({ ScreenshotUtility.class })
+//@Listeners({ ScreenshotUtility.class })
 
 public class FSATest_1 {
 	Initiator init = null;
 
 	Wrapper wrpr = null;
-
+	String woNum=null;
 	@SuppressWarnings("rawtypes")
 	@BeforeMethod
 	public void setup() throws IOException {
-
+		
 		wrpr = new Wrapper();
-
 		init = new Initiator();
 		init.setUp();
 	}
 
 	@Test(priority = 0)
 	public void testiOS()  {
-		//Execute a Sahi Pro script and then proceed only if it has passed
-		String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_createWO.sah");
-		if(!commonFileValArray[0].equals("true")) {
-			System.out.println("Stopping Execution !");
-			return;
+		//From API 
+		
+		ApiServices appServices = new ApiServices();
+		try {
+			appServices.getAccessToken();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		String sWOJsonData="{\"SVMXC__City__c\":\"Delhi\",\"SVMXC__Zip__c\":\"110003\",\"SVMXC__Country__c\":\"India\",\"SVMXC__State__c\":\"Haryana\"}";
+		try {
+			woNum =appServices.getWOName(appServices.getWOORecordID(sWOJsonData));
+			System.out.println("WO NUMBER FETCHED "+woNum);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//FRom UI Execute a Sahi Pro script and then proceed only if it has passed
+//		String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_createWO.sah");
+//		if(!commonFileValArray[0].equals("true")) {
+//			System.out.println("Stopping Execution !");
+//			return;
+//		}
+		
+		
 		// Start the appium driver, as the server usualy times out if no commands are sent
 		init.setUp();
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
-
-		Pg_login.login("vinod.tharavath@ge.com", "svmx123#");
+		
+		Pg_login.login(init.un, init.pwd);
+		 Pg_tools.doDataSync();
+		wrpr.touchWraper(Pg_calendar.btn_calendar, "tap");
 
 		wrpr.takeScreenShotWrapper();
 
-		Pg_explore.createEvent("Work Order Search 2", "WO-00005081", "default", "default", "new event");
+		Pg_explore.createEvent("Work Order Search 2", woNum, "default", "default", "new event");
 
 		wrpr.touchWraper(Pg_calendar.btn_calendar, "tap");
 
-		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
+		wrpr.touchWraper("//div[contains(.,'"+woNum+"')]//*[@class='sfmevent-location-container']", "tap");
 
 		wrpr.touchWraper(Pg_explore.btn_actions, "tap");
 		wrpr.touchWraper(Pg_explore.btn_recordTM, "tap");
@@ -102,7 +125,7 @@ public class FSATest_1 {
 		wrpr.touchWraper(Pg_explore.btn_printServiceReport, "tap");
 
 		try {
-			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
+			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'"+woNum+"')]")) != null) {
 				System.out.println("Opened the document page successfully");
 			}
 		} catch (Exception e) {
@@ -115,10 +138,15 @@ public class FSATest_1 {
 		// We need to roate to landscape before rotating to portraite
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
-		if(!commonFileValArray[0].equals("true")) {
-			System.out.println("Stopping Execution !");
-			return;
-		}
+		
+		 Pg_tools.doDataSync();
+			//FRom UI Execute a Sahi Pro script and then proceed only if it has passed
+			String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_createWO.sah");
+			if(!commonFileValArray[0].equals("true")) {
+				System.out.println("Stopping Execution !");
+				return;
+			}
+		
 	}
 
 	@Test(priority = 1)
@@ -127,13 +155,14 @@ public class FSATest_1 {
 
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
-		Pg_login.login("vinod.tharavath@ge.com", "svmx123#");
+		Pg_login.login(init.un, init.pwd);
+		 Pg_tools.doDataSync();
 
 		wrpr.takeScreenShotWrapper();
 
 		wrpr.touchWraper(Pg_calendar.btn_calendar, "tap");
 
-		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
+		wrpr.touchWraper("//div[contains(.,'"+woNum+"')]//*[@class='sfmevent-location-container']", "tap");
 
 		wrpr.touchWraper(Pg_explore.btn_actions, "tap");
 		wrpr.touchWraper(Pg_explore.btn_recordTM, "tap");
@@ -180,7 +209,7 @@ public class FSATest_1 {
 		wrpr.touchWraper(Pg_explore.btn_printServiceReport, "tap");
 
 		try {
-			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
+			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'"+woNum+"')]")) != null) {
 				System.out.println("Opened the document page successfully");
 			}
 		} catch (Exception e) {
@@ -193,6 +222,7 @@ public class FSATest_1 {
 		// We need to roate to landscape before rotating to portraite
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
+		 Pg_tools.doDataSync();
 
 	}
 

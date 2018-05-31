@@ -395,16 +395,7 @@ public class Wrapper {
 		//Read the recorded true or false from the resultCommon.txt file
 		 try {
 				 resultCommon = this.readTextFile("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/resultCommon.txt");
-				if(resultCommon.toLowerCase().equals("true")) {
-					
-					System.out.println("Its a Match , Read File = "+resultCommon);
-					//Incase you want to stop even if the script passes
 				
-
-				}else {
-					System.out.println("Its Not a Match , Read File = "+resultCommon);
-
-				}
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -414,6 +405,16 @@ public class Wrapper {
 		for(String arrValRead : arrValues){
 			System.out.println("use  arrValues["+i+"] = "+arrValRead);
 			i++;
+		}
+		
+		if(arrValues[0].toLowerCase().equals("true")) {
+			
+			System.out.println("Its a Match , Read File = "+resultCommon);
+			//Incase you want to stop even if the script passes
+
+		}else {
+			System.out.println("Its Not a Match , Read File = "+resultCommon);
+
 		}
 
 		return arrValues;

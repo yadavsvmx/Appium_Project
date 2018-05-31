@@ -56,6 +56,7 @@ public class ScreenshotUtility implements ITestListener {
   // To capture screenshot.
  // File scrFile = ((TakesScreenshot) FSATest.driver).getScreenshotAs(OutputType.FILE);
 Initiator init = new Initiator();
+
   File scrFile = ((TakesScreenshot) init.driver).getScreenshotAs(OutputType.FILE);
   DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy__hh_mm_ssaa");
   // If status = fail then set folder name "screenshots/Failures"
