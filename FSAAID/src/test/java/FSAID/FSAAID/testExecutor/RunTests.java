@@ -1,4 +1,4 @@
-package FSAID.FSAAID.testExecutorClass;
+package FSAID.FSAAID.testExecutor;
 
 import FSAID.FSAAID.testCase.*;
 

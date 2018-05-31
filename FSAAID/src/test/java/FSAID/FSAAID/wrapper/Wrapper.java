@@ -3,8 +3,11 @@ package FSAID.FSAAID.wrapper;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.ios.IOSElement;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -175,7 +178,7 @@ public class Wrapper {
 	 * @param value
 	 * @throws InterruptedException
 	 */
-	public void setSelectedWrapper(String xpathStr, String value) throws InterruptedException {
+	public void setSelectedWrapper(String xpathStr, String value) {
 		init.el = FetchElementWrapper(xpathStr);
 		init.el.click();
 		init.driver.context(init.nativeApp);
@@ -194,7 +197,7 @@ public class Wrapper {
 	 * @param DateFormatArray
 	 * @throws InterruptedException
 	 */
-	public void setDateWrapper(String xpathStr, String DateFormat) throws InterruptedException {
+	public void setDateWrapper(String xpathStr, String DateFormat){
 		init.el = FetchElementWrapper(xpathStr);
 
 		DateFormat dateFormat2 = new SimpleDateFormat("dd");
@@ -303,7 +306,7 @@ public class Wrapper {
 	 * @param textStr
 	 * @throws InterruptedException
 	 */
-	public void sendKeyWrapper(String xpathStr, String textStr) throws InterruptedException {
+	public void sendKeyWrapper(String xpathStr, String textStr){
 		init.el = FetchElementWrapper(xpathStr);
 		try {
 			init.el.clear();
@@ -320,7 +323,7 @@ public class Wrapper {
 		}
 	}
 
-	public void takeScreenShotWrapper() throws IOException {
+	public void takeScreenShotWrapper() {
 		Random rand = new Random();
 
 		int n = rand.nextInt(500) + 1;
@@ -328,22 +331,29 @@ public class Wrapper {
 		File scrFile = ((TakesScreenshot) init.driver).getScreenshotAs(OutputType.FILE);
 		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy__hh_mm_ssaa");
 
-		FileUtils.copyFile(scrFile, new File("/auto/appium/sch/" + n + ".jpg"));
+		try {
+			FileUtils.copyFile(scrFile, new File("/auto/appium/sch/" + n + ".jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	/**
 	 * Execute a Sahi script. The sahi_project repository has to be downloaded/cloned first before calling the scripts
+	 * Will return a true or false statement from the resultCommon.txt file and user may determine weather to proceed or stop the executions
 	 * 
 	 * @param sahiScriptFilePath
 	 * @throws IOException
 	 */
-	public void execSahiScript(String sahiScriptFilePath)  {
+	public String[] execSahiScript(String sahiScriptFilePath)  {
+		String resultCommon=null;
 		try {
 			
 		System.out.println("Executing Sahi scripts please wait for completion !");
 		// create a temp file as a shell or bat for execution
-		File file = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/testFile1.sh");
+		File file = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/sahiExecutable.sh");
 
 		// Create the file
 		if (file.createNewFile()) {
@@ -356,7 +366,7 @@ public class Wrapper {
 		FileWriter writer = new FileWriter(file);
 		writer.write("#!/bin/bash \n");
 		writer.write("cd /auto/sahi_pro/userdata/bin \n");
-		writer.write("./testrunner.sh " + sahiScriptFilePath + " https://test.salesforce.com chrome");
+		writer.write("./testrunner.sh /auto/sahi_pro/userdata/scripts/Sahi_Project_Lightning/svmx/test_lab/test_cases/" + sahiScriptFilePath + " https://test.salesforce.com chrome");
 		writer.close();
 		//make it executable
 		Runtime.getRuntime().exec("chmod u+x " + file);
@@ -380,6 +390,62 @@ public class Wrapper {
 	}catch (Exception e) {
 		System.out.println("Script executed FAILURE !!! "+e);
 	}
+		
+		
+		//Read the recorded true or false from the resultCommon.txt file
+		 try {
+				 resultCommon = this.readTextFile("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/resultCommon.txt");
+				if(resultCommon.toLowerCase().equals("true")) {
+					
+					System.out.println("Its a Match , Read File = "+resultCommon);
+					//Incase you want to stop even if the script passes
+				
+
+				}else {
+					System.out.println("Its Not a Match , Read File = "+resultCommon);
+
+				}
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		String[] arrValues =  resultCommon.split(",");
+		int i = 0;
+		for(String arrValRead : arrValues){
+			System.out.println("use  arrValues["+i+"] = "+arrValRead);
+			i++;
+		}
+
+		return arrValues;
 	}
+	
+	
+	 public String readTextFile(String filePath) throws Exception
+	  {
+	    // pass the path to the file as a parameter
+//	    FileReader fr =
+//	      new FileReader(filePath);
+//	 
+//	    int i;
+//	    while ((i=fr.read()) != -1) {
+//	      System.out.print("result common file read = "+(char) i);
+//	      
+//	    }
+//	    
+//	    return fr.toString();
+		 
+		
+		    String data = "";
+		    data = new String(Files.readAllBytes(Paths.get(filePath)));
+
+		    System.out.println("resultCommon.txt file read as = "+data);
+		    return data;
+
+		  
+	  }
+	 
+	
+
+	 
 
 }

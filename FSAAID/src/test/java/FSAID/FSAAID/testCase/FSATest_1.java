@@ -18,7 +18,7 @@ import FSAID.FSAAID.objectRepo.Pg_explore;
 import FSAID.FSAAID.utility.ScreenshotUtility;
 import FSAID.FSAAID.wrapper.Wrapper;
 
-//@Listeners({ ScreenshotUtility.class })
+@Listeners({ ScreenshotUtility.class })
 
 public class FSATest_1 {
 	Initiator init = null;
@@ -28,15 +28,21 @@ public class FSATest_1 {
 	@SuppressWarnings("rawtypes")
 	@BeforeMethod
 	public void setup() throws IOException {
+
 		wrpr = new Wrapper();
+
 		init = new Initiator();
 		init.setUp();
 	}
 
 	@Test(priority = 0)
-	public void testiOS() throws InterruptedException, IOException {
-		System.out.println("in test1");
-		wrpr.execSahiScript("/auto/sahi_pro/userdata/scripts/Sahi_Project_Lightning/svmx/test_lab/test_cases/backOffice/appium_createWO.sah");
+	public void testiOS()  {
+		//Execute a Sahi Pro script and then proceed only if it has passed
+		String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_createWO.sah");
+		if(!commonFileValArray[0].equals("true")) {
+			System.out.println("Stopping Execution !");
+			return;
+		}
 		// Start the appium driver, as the server usualy times out if no commands are sent
 		init.setUp();
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
@@ -109,11 +115,15 @@ public class FSATest_1 {
 		// We need to roate to landscape before rotating to portraite
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
-
+		if(!commonFileValArray[0].equals("true")) {
+			System.out.println("Stopping Execution !");
+			return;
+		}
 	}
 
 	@Test(priority = 1)
 	public void testiOS1() throws InterruptedException, IOException {
+		init.setUp();
 
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
@@ -183,13 +193,12 @@ public class FSATest_1 {
 		// We need to roate to landscape before rotating to portraite
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
-		wrpr.execSahiScript("/auto/sahi_pro/userdata/scripts/Sahi_Project_Lightning/svmx/test_lab/test_cases/backOffice/dummy1.sah");
 
 	}
 
 	@AfterMethod
 	public void tearDown() {
-		init.driver.close();
+		//init.driver.close();
 
 	}
 
