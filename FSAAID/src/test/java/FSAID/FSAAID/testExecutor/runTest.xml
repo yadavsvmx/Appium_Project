@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="FSA_Suite" >
+
+ <test name="FSATest_1" >
+
+ <classes> <class name="FSAID.FSAAID.testCase.FSATest_1" />
+
+ </classes>
+
+ </test>
+ 
+ <test name="FSATest_2" >
+
+ <classes> <class name="FSAID.FSAAID.testCase.FSATest_2" />
+
+ </classes>
+
+ </test>
+
+ </suite>

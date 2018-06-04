@@ -1,14 +1,17 @@
 
 FSAAID/target/*
 *.properties
-*.xml
 *.png
 *.gif
 *.html
 *.js
 *.css
-*.txt
 *.jar
 *.html
 
 
+FSAAID/test-output/Default suite/testng-failed.xml
+FSAAID/test-output/junitreports/TEST-FSAID.FSAAID.testCase.FSATest_1.xml
+FSAAID/test-output/testng-failed.xml
+FSAAID/test-output/testng-results.xml
+FSAAID/test-output/Default suite/Default test.xml
