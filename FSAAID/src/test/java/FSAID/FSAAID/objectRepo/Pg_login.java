@@ -8,20 +8,21 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import FSAID.FSAAID.initiator.Initiator;
 import FSAID.FSAAID.wrapper.Wrapper;
 
-public class Pg_login extends Initiator {
+public class Pg_login{
 
-	static Wrapper wrpr = new Wrapper();
+	 Wrapper wrpr = new Wrapper();
+	 Initiator init = new Initiator();
 
-	public static String btn_signin = "svmx_splash_signin";
-	public static String txt_username = "username";
-	public static String txt_password = "password";
-	public static String btn_Login = "Login";
-	public static String btn_oaapprove = "oaapprove";
+	public  String btn_signin = "svmx_splash_signin";
+	public  String txt_username = "username";
+	public  String txt_password = "password";
+	public  String btn_Login = "Login";
+	public  String btn_oaapprove = "oaapprove";
 
-	public static void login(String un, String pwd) {
-		if (driver.findElements(By.id(Pg_login.btn_signin)).size() != 0) {
+	public void login(String un, String pwd) {
+		if (init.driver.findElements(By.id(btn_signin)).size() != 0) {
 
-			driver.findElement(By.id(Pg_login.btn_signin)).click();
+			init.driver.findElement(By.id(btn_signin)).click();
 			try {
 				Thread.sleep(6000);
 			} catch (InterruptedException e) {
@@ -30,9 +31,9 @@ public class Pg_login extends Initiator {
 			}
 			// driver.findElement(By.id("username")).sendKeys("Vinod.tharavath@ge.com");
 			// driver.findElement(By.id("password")).sendKeys("svmx123#");
-			driver.findElement(By.id(Pg_login.txt_username)).sendKeys(un);
-			driver.findElement(By.id(Pg_login.txt_password)).sendKeys(pwd);
-			driver.findElement(By.id(Pg_login.btn_Login)).click();
+			init.driver.findElement(By.id(txt_username)).sendKeys(un);
+			init.driver.findElement(By.id(txt_password)).sendKeys(pwd);
+			init.driver.findElement(By.id(btn_Login)).click();
 
 			try {
 				Thread.sleep(8000);
@@ -40,7 +41,7 @@ public class Pg_login extends Initiator {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			driver.findElement(By.id(Pg_login.btn_oaapprove)).click();
+			init.driver.findElement(By.id(btn_oaapprove)).click();
 			System.out.println("Login Successfull");
 
 		} else {
@@ -49,7 +50,7 @@ public class Pg_login extends Initiator {
 		}
 		System.out.println("Waiting for Landing Page");
 
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(Pg_calendar.btn_calendar)));
+		init.wait.until(ExpectedConditions.elementToBeClickable(By.xpath(Pg_calendar.btn_calendar)));
 
 		try {
 			Thread.sleep(3000);

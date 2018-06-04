@@ -197,6 +197,11 @@ http://github.com/cbeust/testng</url>
 			<version>2.9.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+    <groupId>com.aventstack</groupId>
+    <artifactId>extentreports</artifactId>
+    <version>3.1.5</version>
+</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -207,5 +212,7 @@ http://github.com/cbeust/testng</url>
 				<version>5.0.4</version>
 			</dependency>
 		</dependencies>
+		
+		
 	</dependencyManagement>
 </project>

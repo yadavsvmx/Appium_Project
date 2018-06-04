@@ -25,13 +25,13 @@ import io.appium.java_client.ios.IOSElement;
  */
 public class Initiator {
 	// Static makes the variable global, since they do not change during the program
-	public static IOSDriver<IOSElement> driver;
-	public static WebDriverWait wait;
-	public static Set<String> contextNames;
-	public static String nativeApp;
-	public static String webApp;
+	public static IOSDriver<IOSElement> driver =null;
+	public static WebDriverWait wait=null;
+	public static Set<String> contextNames=null;
+	public static String nativeApp=null;
+	public static String webApp=null;
 
-	public static WebElement el = null;
+	public static  WebElement el = null;
 	public static String elId = null;
 
 	public static String elClass = null;
@@ -47,7 +47,8 @@ public class Initiator {
 	public static String un="vinod.tharavath@ge.com";
 	public static String pwd="svmx123#";
 	
-	public void setUp() {
+	
+	public void startDriver() {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability("platformName", "iOS");
 		capabilities.setCapability("platformVersion", "11.2.6");
@@ -65,7 +66,7 @@ public class Initiator {
 		capabilities.setCapability("autoWebview", true);
 		capabilities.setCapability("browserName", "iOS");
 		capabilities.setCapability("noReset", true);
-		capabilities.setCapability("newCommandTimeout", 60);
+		capabilities.setCapability("newCommandTimeout", 1000000);
 		capabilities.setCapability("sendKeyStrategy", "grouped");
 		capabilities.setCapability("autoAcceptAlerts", true);
 		capabilities.setCapability("autoGrantPermissions", true);

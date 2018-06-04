@@ -24,7 +24,7 @@ public class FSATest_2 {
 	@BeforeMethod
 	public void setup() {
 		 init = new Initiator();
-		init.setUp();
+		init.startDriver();
 		 wrpr = new Wrapper();
 	}
 	

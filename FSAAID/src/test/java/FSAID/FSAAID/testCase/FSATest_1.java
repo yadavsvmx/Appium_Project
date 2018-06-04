@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+
 import FSAID.FSAAID.initiator.Initiator;
 import FSAID.FSAAID.objectRepo.Pg_login;
 import FSAID.FSAAID.objectRepo.Pg_tools;
@@ -24,16 +25,23 @@ import FSAID.FSAAID.wrapper.Wrapper;
 
 public class FSATest_1 {
 	Initiator init = null;
-
 	Wrapper wrpr = null;
 	String woNum=null;
+	Pg_login Pg_login = null;
+	Pg_calendar Pg_calendar = null;
+	Pg_explore Pg_explore = null;
+	Pg_tools Pg_tools = null;
+
 	@SuppressWarnings("rawtypes")
 	@BeforeMethod
 	public void setup() throws IOException {
-		
 		wrpr = new Wrapper();
 		init = new Initiator();
-		init.setUp();
+		Pg_login = new Pg_login();
+		Pg_calendar  = new Pg_calendar();
+		Pg_explore  = new Pg_explore();
+		Pg_tools  = new Pg_tools();
+		init.startDriver();
 	}
 
 	@Test(priority = 0)
@@ -65,7 +73,6 @@ public class FSATest_1 {
 		
 		
 		// Start the appium driver, as the server usualy times out if no commands are sent
-		init.setUp();
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 		
 		Pg_login.login(init.un, init.pwd);
@@ -75,7 +82,7 @@ public class FSATest_1 {
 		wrpr.takeScreenShotWrapper();
 
 		Pg_explore.createEvent("Work Order Search 2", woNum, "default", "default", "new event");
-
+/*
 		wrpr.touchWraper(Pg_calendar.btn_calendar, "tap");
 
 		wrpr.touchWraper("//div[contains(.,'"+woNum+"')]//*[@class='sfmevent-location-container']", "tap");
@@ -85,7 +92,7 @@ public class FSATest_1 {
 		wrpr.touchWraper(Pg_explore.btn_parts_add, "tap");
 		wrpr.setSelectedWrapper(Pg_explore.txt_picker_search, "Starts With");
 
-		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
+		//wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
 
 		wrpr.sendKeyWrapper(Pg_explore.btn_picklist_serach, "BlueLake Men Watch");
 		wrpr.touchWraper(Pg_explore.btn_search, "tap");
@@ -138,10 +145,10 @@ public class FSATest_1 {
 		// We need to roate to landscape before rotating to portraite
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
-		
+		*/
 		 Pg_tools.doDataSync();
 			//FRom UI Execute a Sahi Pro script and then proceed only if it has passed
-			String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_createWO.sah");
+			String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_verifyWorkDetails.sah");
 			if(!commonFileValArray[0].equals("true")) {
 				System.out.println("Stopping Execution !");
 				return;
@@ -151,7 +158,6 @@ public class FSATest_1 {
 
 	@Test(priority = 1)
 	public void testiOS1() throws InterruptedException, IOException {
-		init.setUp();
 
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
@@ -223,6 +229,12 @@ public class FSATest_1 {
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 		 Pg_tools.doDataSync();
+			//FRom UI Execute a Sahi Pro script and then proceed only if it has passed
+			String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_verifyWorkDetails.sah");
+			if(!commonFileValArray[0].equals("true")) {
+				System.out.println("Stopping Execution !");
+				return;
+			}
 
 	}
 
