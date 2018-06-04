@@ -41,7 +41,6 @@ public class Pg_explore {
 	public  void searchForWorOrder(String searchName, String workOrderNumber) {
 		navigateToExplore();
 		wrpr.touchWraper("//*[text() = '" + searchName + "']", "tap");
-		wrpr.touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
 		wrpr.sendKeyWrapper(txt_search, workOrderNumber);
 
 	}

@@ -13,7 +13,7 @@ public class Pg_tools {
 	public static String btn_startSync = "//*[text() = 'Start Sync']";
 	public static String txt_syncSuccess = "//*[text() = 'Success']";
 	
-	public static void doDataSync() {
+	public static boolean doDataSync() {
 		
 		wrpr.touchWraper(btn_tools, "tap");
 		wrpr.touchWraper(btn_syncDataNow, "tap");
@@ -23,14 +23,18 @@ public class Pg_tools {
 		try {
 			if (wrpr.FetchElementWrapper(txt_syncSuccess) != null) {
 				System.out.println("Sync completed successfully");
+				return true;
 			}else {
 				
 				System.out.println("Sync Failed !");
+				return false;
 
 			}
 			
 		} catch (Exception e) {
 			System.out.println("Sync error : " + e);
+			return false;
+
 		}
 		
 	}

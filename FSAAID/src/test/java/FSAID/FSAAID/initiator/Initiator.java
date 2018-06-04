@@ -68,10 +68,10 @@ public class Initiator {
 		capabilities.setCapability("noReset", true);
 		capabilities.setCapability("newCommandTimeout", 1000000);
 		capabilities.setCapability("sendKeyStrategy", "grouped");
-		capabilities.setCapability("autoAcceptAlerts", true);
-		capabilities.setCapability("autoGrantPermissions", true);
-		capabilities.setCapability("locationServicesAuthorized", true);
-		capabilities.setCapability("clearSystemFiles", true);
+		capabilities.setCapability("autoAcceptAlerts", "true");
+		capabilities.setCapability("autoGrantPermissions", "true");
+		capabilities.setCapability("locationServicesAuthorized", "true");
+		capabilities.setCapability("clearSystemFiles", "true");
 
 		// caps.setCapability("bundleid", "com.example.apple-samplecode.UICatalog");
 

@@ -445,6 +445,24 @@ public class Wrapper {
 		  
 	  }
 	 
+	 public void writeTextFile(String filePath,String data) throws IOException{
+	  
+		 File file = new File(filePath);
+			// Create the file
+			if (file.createNewFile()) {
+				System.out.println("File is created!");
+			} else {
+				System.out.println("File already exists.");
+			}
+
+			// Write Content an create the shell or bat file
+			FileWriter writer = new FileWriter(file);
+			writer.write(data);
+			writer.close();
+		    System.out.println("resultCommon.txt file Write as = "+data);
+		  
+	  }
+	 
 	
 
 	 
