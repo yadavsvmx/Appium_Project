@@ -136,6 +136,9 @@ public class FSATest_1 {
 		wrpr.takeScreenShotWrapper();
 
 		wrpr.touchWraper(Pg_explore.btn_report_done, "click");
+		
+		init.driver.rotate(ScreenOrientation.LANDSCAPE);
+		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
 		// We need to rotate to landscape before rotating to portraite init.driver.rotate(ScreenOrientation.LANDSCAPE); init.driver.rotate(ScreenOrientation.PORTRAIT);
 
@@ -232,7 +235,9 @@ public class FSATest_1 {
 		wrpr.takeScreenShotWrapper();
 
 		wrpr.touchWraper(Pg_explore.btn_report_done, "click");
-
+		init.driver.rotate(ScreenOrientation.LANDSCAPE);
+		init.driver.rotate(ScreenOrientation.PORTRAIT);
+		
 		// We need to roate to landscape before rotating to portraite
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
