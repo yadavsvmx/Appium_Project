@@ -168,7 +168,7 @@ public class FSATest_1 {
 
 	}
 
-	@Test(priority = 1)
+	//@Test(priority = 1)
 	public void testiOS1() throws InterruptedException, IOException {
 
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
