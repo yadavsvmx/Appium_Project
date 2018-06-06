@@ -21,7 +21,7 @@ public class Pg_tools {
 
 
 		try {
-			if (wrpr.FetchElementWrapper(txt_syncSuccess) != null) {
+			if (wrpr.FetchElementDetails(txt_syncSuccess) != null) {
 				System.out.println("Sync completed successfully");
 				return true;
 			}else {

@@ -1,5 +1,7 @@
 package FSAID.FSAAID.testCase;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
@@ -10,133 +12,129 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import FSAID.FSAAID.initiator.Initiator;
+import FSAID.FSAAID.objectRepo.Pg_login;
+import FSAID.FSAAID.objectRepo.Pg_tools;
+import FSAID.FSAAID.objectRepo.Pg_calendar;
+import FSAID.FSAAID.objectRepo.Pg_explore;
+import FSAID.FSAAID.utility.ApiServices;
 import FSAID.FSAAID.utility.ScreenshotUtility;
 import FSAID.FSAAID.wrapper.Wrapper;
 
-@Listeners({ ScreenshotUtility.class })
+//@Listeners({ ScreenshotUtility.class })
 
 public class FSATest_2 {
 	Initiator init = null;
-	
 	Wrapper wrpr = null;
+	String woNum = null;
+	Pg_login Pg_login = null;
+	Pg_calendar Pg_calendar = null;
+	Pg_explore Pg_explore = null;
+	Pg_tools Pg_tools = null;
+	String appiumResultCommonPath = "/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/appiumResultCommon.txt";
 
 	@SuppressWarnings("rawtypes")
 	@BeforeMethod
-	public void setup() {
-		 init = new Initiator();
+	public void setup() throws IOException {
+		wrpr = new Wrapper();
+		init = new Initiator();
+		Pg_login = new Pg_login();
+		Pg_calendar = new Pg_calendar();
+		Pg_explore = new Pg_explore();
+		Pg_tools = new Pg_tools();
+
 		init.startDriver();
-		 wrpr = new Wrapper();
-	}
-	
-	public void login() throws InterruptedException, IOException {
-		
-		if(init.driver.findElements(By.id("svmx_splash_signin")).size() != 0) {
-			
-			init.driver.findElement(By.id("svmx_splash_signin")).click();
-			Thread.sleep(6000);
-			// init.driver.findElement(By.id("username")).sendKeys("Vinod.tharavath@ge.com");
-			// init.driver.findElement(By.id("password")).sendKeys("svmx123#");
-			init.driver.findElement(By.id("username")).sendKeys("vinod.tharavath@ge.com");
-			init.driver.findElement(By.id("password")).sendKeys("svmx123#");
-			init.driver.findElement(By.id("Login")).click();
-
-			Thread.sleep(8000);
-			init.driver.findElement(By.id("oaapprove")).click();
-			System.out.println("Login Successfull");
-
-		}else {
-			//do nothing
-			System.out.println("Already Logged in skipping Login");
-		}
-		System.out.println("Waiting for Landing Page");
-
-		init.wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text() = 'Calendar']")));
-
-		Thread.sleep(3000);
 	}
 
 	@Test(priority = 0)
-	public void testiOS2() throws InterruptedException, IOException {
+	public void testiOS() {
 
+		// From API
+
+//		ApiServices appServices = new ApiServices();
+//		try {
+//			appServices.getAccessToken();
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		String sWOJsonData = "{\"SVMXC__City__c\":\"Delhi\",\"SVMXC__Zip__c\":\"110003\",\"SVMXC__Country__c\":\"India\",\"SVMXC__State__c\":\"Haryana\"}";
+//		try {
+//			woNum = appServices.getWOName(appServices.getWOORecordID(sWOJsonData));
+//			System.out.println("WO NUMBER FETCHED " + woNum);
+//			wrpr.writeTextFile(appiumResultCommonPath, "true," + woNum);
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+
+		// Start the appium driver, as the server usualy times out if no commands are sent
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
-		login();
+		Pg_login.login(init.un, init.pwd);
+		
+		wrpr.fetchElementWrapper(Pg_explore.btn_explore).tap();
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).tap();
+		wrpr.fetchElementWrapper(Pg_tools.btn_tools).tap();
+		
+		wrpr.fetchElementWrapper(Pg_explore.btn_explore).clickXpath();
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).longPress();
+		wrpr.fetchElementWrapper(Pg_tools.btn_tools).longPress();
+
+
+
+		Pg_tools.doDataSync();
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).tap();
 		wrpr.takeScreenShotWrapper();
-		wrpr.touchWraper("//*[text() = 'Explore']", "tap");
-		// wrpr.touchWraper("//div[. = 'AppiumSearch']/..", "tap");
-
-		// wrpr.touchWraper("//*[text() = 'DC SEARCH']", "tap");
-		// wrpr.touchWraper("//*[@class = 'x-listitem-body']/*[@class ='x-innerhtml']/*[contains(.,'Work Orders (')]", "tap");
-
-		wrpr.touchWraper("//*[text() = 'Work Order Search 2']", "tap");
-		wrpr.touchWraper("//*[.='Include Online Items']/..//*[@data-componentid = 'ext-toggleslider-1']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search']", "WO-00005081");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-
-		wrpr.touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'WO-00005081')]", "tap");
+		Pg_explore.createEvent("Work Order Search 2", woNum, "default", "default", "new event");
 		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'New Event']", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "default");
-		wrpr.sendKeyWrapper("//*[. = 'Subject']//*[@class = 'x-input-el']", "100");
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		
-		if(wrpr.FetchElementWrapper(" //*[text() = 'Yes']") != null) {
-			 wrpr.touchWraper("//*[text() = 'Yes']", "tap");
-		}
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).tap();
 
-		wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
-		
-		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
-		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-		wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+		wrpr.fetchElementWrapper("//div[contains(.,'" + woNum + "')]/div[@class='sfmevent-location-container']").tap();
 
-		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
-		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
-		
+		wrpr.fetchElementWrapper(Pg_explore.btn_actions).tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_recordTM).tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_parts_add).tap();
+		wrpr.setSelectedWrapper(Pg_explore.txt_picker_search, "Starts With");
 
-		wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		// wrpr.fetchElementWrapper("//*[.='Include Online']/..//*[@type='checkbox']/..").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper( "BlueLake Men Watch");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']").tap();
 
-		wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("GE Product");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='GE Product'][@class = 'x-gridcell']").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_addSelected).tap();
 
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_travel_add).tap();
+		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.fetchElementWrapper(Pg_explore.txt_lineQty).sendKeyWrapper( "100");
+		wrpr.fetchElementWrapper(Pg_explore.txt_linePricePerUnit).sendKeyWrapper( "20");
+		wrpr.fetchElementWrapper(Pg_explore.btn_done).tap();
 
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_labour_add).tap();
+		wrpr.fetchElementWrapper("//*[. = 'Part']//*[@class = 'x-input-el']").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("BlueLake Men Watch");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']").tap();
 
-		wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+		wrpr.setSelectedWrapper(Pg_explore.btn_activityType, "Cleanup");
+		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.fetchElementWrapper(Pg_explore.txt_lineQty).sendKeyWrapper( "100");
+		wrpr.fetchElementWrapper(Pg_explore.txt_linePricePerUnit).sendKeyWrapper( "20");
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_done).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_save).tap(); // wrpr.fetchElementWrapper(Pg_explore.btn_yes).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_actions).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_printServiceReport).tap();
 
 		try {
-			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
+			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'" + woNum + "')]")) != null) {
 				System.out.println("Opened the document page successfully");
 			}
 		} catch (Exception e) {
@@ -144,76 +142,99 @@ public class FSATest_2 {
 		}
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper("//input[@value ='Done']", "click");
+		wrpr.fetchElementWrapper(Pg_explore.btn_report_done).click();
 		
-		//We need to roate to landscape before rotating to portraite 
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
-		
+		// We need to rotate to landscape before rotating to portraite init.driver.rotate(ScreenOrientation.LANDSCAPE); init.driver.rotate(ScreenOrientation.PORTRAIT);
+
+		if (Pg_tools.doDataSync() == true) {
+			// FRom UI Execute a Sahi Pro script and then proceed only if it has passed
+			String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_verifyWorkDetails.sah");
+			if (commonFileValArray[0].equals("false")) {
+				System.out.println("Stopping Execution !");
+				try {
+					wrpr.writeTextFile(appiumResultCommonPath, "false," + woNum);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return;
+			}
+
+			
+		} else {
+			try {
+				wrpr.writeTextFile(appiumResultCommonPath, "false," + woNum);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
-	
-	@Test(priority = 1)
-	public void testiO31() throws InterruptedException, IOException {
+
+	//@Test(priority = 1)
+	public void testiOS1() throws InterruptedException, IOException {
 
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
-		login();
+		Pg_login.login(init.un, init.pwd);
+		Pg_tools.doDataSync();
+
 		wrpr.takeScreenShotWrapper();
-		
 
-		wrpr.touchWraper("//*[text() = 'Calendar']", "tap");
-		
-		wrpr.touchWraper("//div[contains(.,'WO-00005081')]//*[@class='sfmevent-location-container']", "tap");
-		
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
-		wrpr.touchWraper("//*[text() = 'Record T&M']", "tap");
-		wrpr.touchWraper("//*[contains(text(),'Parts (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setSelectedWrapper("//*[@class='x-unsized x-textinput x-input x-component sfmsearch-picklist-borderless']//input[@name='picker']", "Starts With");
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).tap();
 
-		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
-		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "GE Product");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		wrpr.touchWraper("//*[. = 'Add Selected']", "tap");
-		
+		wrpr.fetchElementWrapper("//div[contains(.,'" + woNum + "')]/div[@class='sfmevent-location-container']").tap();
 
-		wrpr.touchWraper("//*[contains(text(),'Travel (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_actions).tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_recordTM).tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_parts_add).tap();
+		wrpr.setSelectedWrapper(Pg_explore.txt_picker_search, "Starts With");
 
-		wrpr.touchWraper("//*[contains(text(),'Labor (')]/../../../../..//*[contains(text(),'Add')]", "tap");
-		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		wrpr.sendKeyWrapper("//input[@placeholder='Search'][@class='x-input-el']", "BlueLake Men Watch");
-		wrpr.touchWraper("//*[.='Search'][@class = 'x-button-label']", "tap");
-		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-		
-		wrpr.setSelectedWrapper("//*[. = 'Activity Type']//input", "Cleanup");
-		wrpr.setDateWrapper("//*[contains(text(),'Start Date and Time')][@class = 'x-label-text-el']/../..//input", "futureStart");
-		wrpr.setDateWrapper("//*[contains(text(),'End Date and Time')][@class = 'x-label-text-el']/../..//input", "futureEnd");
-		wrpr.sendKeyWrapper("//*[. = 'Line Qty']//*[@class = 'x-input-el']", "100");
-		wrpr.sendKeyWrapper("//*[. = 'Line Price Per Unit']//*[@class = 'x-input-el']", "20");
-		
-		wrpr.touchWraper("//*[text() = 'Done']", "tap");
+		wrpr.fetchElementWrapper("//*[.='Include Online']/..//*[@type='checkbox']/..").tap();
 
-		wrpr.touchWraper("//*[text() = 'Save']", "tap");
-		// wrpr.touchWraper("//*[text() = 'Yes']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper( "BlueLake Men Watch");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']").tap();
 
-		wrpr.touchWraper("//*[text() = 'Actions']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("GE Product");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='GE Product'][@class = 'x-gridcell']").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_addSelected).tap();
 
-		wrpr.touchWraper("//*[text() = 'Print Service Report']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_travel_add).tap();
+		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.fetchElementWrapper(Pg_explore.txt_lineQty).sendKeyWrapper( "100");
+		wrpr.fetchElementWrapper(Pg_explore.txt_linePricePerUnit).sendKeyWrapper( "20");
+		wrpr.fetchElementWrapper(Pg_explore.btn_done).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_labour_add).tap();
+		wrpr.fetchElementWrapper("//*[. = 'Part']//*[@class = 'x-input-el']").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("BlueLake Men Watch");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']").tap();
+
+		wrpr.setSelectedWrapper(Pg_explore.btn_activityType, "Cleanup");
+		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.fetchElementWrapper(Pg_explore.txt_lineQty).sendKeyWrapper( "100");
+		wrpr.fetchElementWrapper(Pg_explore.txt_linePricePerUnit).sendKeyWrapper( "20");
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_done).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_save).tap();
+		// wrpr.fetchElementWrapper(Pg_explore.btn_yes).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_actions).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_printServiceReport).tap();
 
 		try {
-			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'WO-00005081')]")) != null) {
+			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'" + woNum + "')]")) != null) {
 				System.out.println("Opened the document page successfully");
 			}
 		} catch (Exception e) {
@@ -221,19 +242,27 @@ public class FSATest_2 {
 		}
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper("//input[@value ='Done']", "click");
-		
-		//We need to roate to landscape before rotating to portraite 
+		wrpr.fetchElementWrapper(Pg_explore.btn_report_done).click();
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
-
 		
+		// We need to roate to landscape before rotating to portraite
+		init.driver.rotate(ScreenOrientation.LANDSCAPE);
+		init.driver.rotate(ScreenOrientation.PORTRAIT);
+		Pg_tools.doDataSync();
+		// FRom UI Execute a Sahi Pro script and then proceed only if it has passed
+		String[] commonFileValArray = wrpr.execSahiScript("backOffice/appium_verifyWorkDetails.sah");
+		if (!commonFileValArray[0].equals("true")) {
+			System.out.println("Stopping Execution !");
+			return;
+		}
 
 	}
-@AfterMethod
-public void tearDown() {
-	init.driver.close();
-}
 
+	@AfterMethod
+	public void tearDown() {
+		init.driver.close();
+
+	}
 
 }

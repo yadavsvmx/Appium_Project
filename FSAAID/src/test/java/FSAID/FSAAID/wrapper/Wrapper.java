@@ -19,6 +19,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import FSAID.FSAAID.initiator.Initiator;
 
@@ -32,6 +33,9 @@ import FSAID.FSAAID.initiator.Initiator;
  */
 public class Wrapper {
 	Initiator init = new Initiator();
+	TouchAction touch = new TouchAction(init.driver);
+	Integer xOffset = 15;
+	Integer yOffset = 18;
 
 	/**
 	 * Fetches the init.elements by handling all the DOM load dinit.elays and location not found issues and sets the global init.elemental properties for init.el,init.xyPoint = init.el.getLocation(); init.elId , init.elClass, init.elValue, init.elText, init.elTagname,
@@ -39,9 +43,10 @@ public class Wrapper {
 	 * @param xpathStr
 	 * @return
 	 */
-	public WebElement FetchElementWrapper(String xpathStr) {
+	public WebElement FetchElementDetails(String xpathStr) {
 
 		try {
+			init.xpathStr = null;
 			init.el = null;
 			init.elId = null;
 
@@ -59,6 +64,7 @@ public class Wrapper {
 
 				count++;
 				try {
+					init.xpathStr = xpathStr;
 					init.el = init.driver.findElement(By.xpath(xpathStr));
 
 					init.xyPoint = init.el.getLocation();
@@ -105,64 +111,135 @@ public class Wrapper {
 		return init.el;
 
 	}
-
 	/**
-	 * Performs Tap, longpress, click and scroll
-	 * 
+	 * Fetches the element details 
 	 * @param xpathStr
-	 * @param typeOfAction
 	 */
-	public void touchWraper(String xpathStr, String typeOfAction) {
+	public Wrapper fetchElementWrapper(String xpathStr) {
 
-		init.el = FetchElementWrapper(xpathStr);
-		TouchAction touch = new TouchAction(init.driver);
-		Integer xOffset = 15;
-		Integer yOffset = 18;
-
-		if (typeOfAction.toLowerCase().equals("tap")) {
-			System.out.println("Acting on location Tap " + init.el);
-
-			touch.tap(init.xyPoint.getX() + xOffset, init.xyPoint.getY() + yOffset).release().perform();
-
-		} else if (typeOfAction.toLowerCase().equals("longpress")) {
-			System.out.println("Acting on location longpress " + init.el);
-
-			touch.longPress(init.xyPoint.getX() + yOffset, init.xyPoint.getY() + yOffset).release().perform();
-
-			// touch.moveTo(init.xyPoint.getX(),init.xyPoint.getY()).rinit.elease().perform();
-		} else if (typeOfAction.toLowerCase().equals("scroll")) {
-			System.out.println("Acting on location scroll " + init.el);
-
-			touch.press(init.xyPoint.getX() + yOffset, init.xyPoint.getY() + yOffset).moveTo(init.xyPoint.getX() + yOffset, init.xyPoint.getY() + yOffset + 50).release().perform();
-			// touch.moveTo(init.xyPoint.getX(),init.xyPoint.getY()).rinit.elease().perform();
-		}
-
-		else if (typeOfAction.toLowerCase().equals("js")) {
-
-			// JavascriptExecutor js = (JavascriptExecutor) init.driver;
-			// HashMap<String, String> tapObject = new HashMap<String, String>();
-			// tapObject.put("x", String.valueOf(init.el.getSize().getWidth() / 2));
-			// tapObject.put("y", String.valueOf(init.el.getSize().getHeight() / 2));
-			// tapObject.put("init.element", ((RemoteWebinit.element) init.el).getId());
-			// js.executeScript("mobile:tap", tapObject);
-		} else if (typeOfAction.toLowerCase().equals("click")) {
-			System.out.println("Acting on init.element click " + init.el);
-
-			init.el.click();
-
-		} else if (typeOfAction.toLowerCase().equals("clickid")) {
-			System.out.println("Acting on Id click " + init.driver.findElement(By.id(init.elId)));
-
-			init.driver.findElement(By.id(init.elId)).click();
-
-		} else if (typeOfAction.toLowerCase().equals("clickxpath")) {
-			System.out.println("Acting on xpath click " + init.driver.findElement(By.xpath(xpathStr)));
-
-			init.driver.findElement(By.xpath(xpathStr)).click();
-
-		}
+		init.el = FetchElementDetails(xpathStr);
+		return this;
 
 	}
+
+	/**
+	 * Tap on element
+	 * Chain with fetcheElementWrapper();
+	 * @return
+	 */
+	public Wrapper tap() {
+
+		System.out.println("Acting on location Tap " + init.el);
+
+		touch.tap(init.xyPoint.getX() + xOffset, init.xyPoint.getY() + yOffset).release().perform();
+		return this;
+
+	}
+
+	/**
+	 * longPress on element
+	 * Chain with fetcheElementWrapper();
+	 * @return
+	 */
+	public Wrapper longPress() {
+		System.out.println("Acting on location longpress " + init.el);
+
+		touch.longPress(init.xyPoint.getX() + yOffset, init.xyPoint.getY() + yOffset).release().perform();
+		return this;
+
+	}
+	/**
+	 * click on element
+	 * Chain with fetcheElementWrapper();
+	 * @return
+	 */
+	public Wrapper click() {
+		System.out.println("Acting on init.element click " + init.el);
+
+		init.el.click();
+		return this;
+
+	}
+	/**
+	 * clickId on element
+	 * Chain with fetcheElementWrapper();
+	 * @return
+	 */
+	public Wrapper clickId() {
+
+		System.out.println("Acting on Id click " + init.driver.findElement(By.id(init.elId)));
+
+		init.driver.findElement(By.id(init.elId)).click();
+		return this;
+
+	}
+	/**
+	 * clickXpath
+	 *  on element
+	 * Chain with fetcheElementWrapper();
+	 * @return
+	 */
+	public Wrapper clickXpath() {
+
+		System.out.println("Acting on xpath click " + init.driver.findElement(By.xpath(init.xpathStr)));
+
+		init.driver.findElement(By.xpath(init.xpathStr)).click();
+		return this;
+
+	}
+
+	
+//	public void touchWraper(String xpathStr, String typeOfAction) {
+//
+//		init.el = FetchElementDetails(xpathStr);
+//		TouchAction touch = new TouchAction(init.driver);
+//		Integer xOffset = 15;
+//		Integer yOffset = 18;
+//
+//		if (typeOfAction.toLowerCase().equals("tap")) {
+//			System.out.println("Acting on location Tap " + init.el);
+//
+//			touch.tap(init.xyPoint.getX() + xOffset, init.xyPoint.getY() + yOffset).release().perform();
+//
+//		} else if (typeOfAction.toLowerCase().equals("longpress")) {
+//			System.out.println("Acting on location longpress " + init.el);
+//
+//			touch.longPress(init.xyPoint.getX() + yOffset, init.xyPoint.getY() + yOffset).release().perform();
+//
+//			// touch.moveTo(init.xyPoint.getX(),init.xyPoint.getY()).rinit.elease().perform();
+//		} else if (typeOfAction.toLowerCase().equals("scroll")) {
+//			System.out.println("Acting on location scroll " + init.el);
+//
+//			touch.press(init.xyPoint.getX() + yOffset, init.xyPoint.getY() + yOffset).moveTo(init.xyPoint.getX() + yOffset, init.xyPoint.getY() + yOffset + 50).release().perform();
+//			// touch.moveTo(init.xyPoint.getX(),init.xyPoint.getY()).rinit.elease().perform();
+//		}
+//
+//		else if (typeOfAction.toLowerCase().equals("js")) {
+//
+//			// JavascriptExecutor js = (JavascriptExecutor) init.driver;
+//			// HashMap<String, String> tapObject = new HashMap<String, String>();
+//			// tapObject.put("x", String.valueOf(init.el.getSize().getWidth() / 2));
+//			// tapObject.put("y", String.valueOf(init.el.getSize().getHeight() / 2));
+//			// tapObject.put("init.element", ((RemoteWebinit.element) init.el).getId());
+//			// js.executeScript("mobile:tap", tapObject);
+//		} else if (typeOfAction.toLowerCase().equals("click")) {
+//			System.out.println("Acting on init.element click " + init.el);
+//
+//			init.el.click();
+//
+//		} else if (typeOfAction.toLowerCase().equals("clickid")) {
+//			System.out.println("Acting on Id click " + init.driver.findElement(By.id(init.elId)));
+//
+//			init.driver.findElement(By.id(init.elId)).click();
+//
+//		} else if (typeOfAction.toLowerCase().equals("clickxpath")) {
+//			System.out.println("Acting on xpath click " + init.driver.findElement(By.xpath(xpathStr)));
+//
+//			init.driver.findElement(By.xpath(xpathStr)).click();
+//
+//		}
+//
+//	}
 
 	public String getDateTime(int year, int month, int day) {
 		Calendar cal = Calendar.getInstance();
@@ -179,7 +256,7 @@ public class Wrapper {
 	 * @throws InterruptedException
 	 */
 	public void setSelectedWrapper(String xpathStr, String value) {
-		init.el = FetchElementWrapper(xpathStr);
+		init.el = FetchElementDetails(xpathStr);
 		init.el.click();
 		init.driver.context(init.nativeApp);
 
@@ -197,8 +274,8 @@ public class Wrapper {
 	 * @param DateFormatArray
 	 * @throws InterruptedException
 	 */
-	public void setDateWrapper(String xpathStr, String DateFormat){
-		init.el = FetchElementWrapper(xpathStr);
+	public void setDateWrapper(String xpathStr, String DateFormat) {
+		init.el = FetchElementDetails(xpathStr);
 
 		DateFormat dateFormat2 = new SimpleDateFormat("dd");
 		Date date2 = new Date();
@@ -306,8 +383,7 @@ public class Wrapper {
 	 * @param textStr
 	 * @throws InterruptedException
 	 */
-	public void sendKeyWrapper(String xpathStr, String textStr){
-		init.el = FetchElementWrapper(xpathStr);
+	public Wrapper sendKeyWrapper(String textStr) {
 		try {
 			init.el.clear();
 		} catch (Exception e) {
@@ -321,6 +397,7 @@ public class Wrapper {
 			System.out.println("Send Keys Eception - " + e);
 
 		}
+		return this;
 	}
 
 	public void takeScreenShotWrapper() {
@@ -341,113 +418,19 @@ public class Wrapper {
 	}
 
 	/**
-	 * Execute a Sahi script. The sahi_project repository has to be downloaded/cloned first before calling the scripts
-	 * Will return a true or false statement from the resultCommon.txt file and user may determine weather to proceed or stop the executions
+	 * Execute a Sahi script. The sahi_project repository has to be downloaded/cloned first before calling the scripts Will return a true or false statement from the resultCommon.txt file and user may determine weather to proceed or stop the executions
 	 * 
 	 * @param sahiScriptFilePath
 	 * @throws IOException
 	 */
-	public String[] execSahiScript(String sahiScriptFilePath)  {
-		String resultCommon=null;
+	public String[] execSahiScript(String sahiScriptFilePath) {
+		String resultCommon = null;
 		try {
-			
-		System.out.println("Executing Sahi scripts please wait for completion !");
-		// create a temp file as a shell or bat for execution
-		File file = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/sahiExecutable.sh");
 
-		// Create the file
-		if (file.createNewFile()) {
-			System.out.println("File is created!");
-		} else {
-			System.out.println("File already exists.");
-		}
+			System.out.println("Executing Sahi scripts please wait for completion !");
+			// create a temp file as a shell or bat for execution
+			File file = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/sahiExecutable.sh");
 
-		// Write Content an create the shell or bat file
-		FileWriter writer = new FileWriter(file);
-		writer.write("#!/bin/bash \n");
-		writer.write("cd /auto/sahi_pro/userdata/bin \n");
-		writer.write("./testrunner.sh /auto/sahi_pro/userdata/scripts/Sahi_Project_Lightning/svmx/test_lab/test_cases/" + sahiScriptFilePath + " https://test.salesforce.com chrome");
-		writer.close();
-		//make it executable
-		Runtime.getRuntime().exec("chmod u+x " + file);
-
-		// File fileExec = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/testCase/testFile1.sh");
-		//// This will execute the scripts asynchronously
-		//Runtime.getRuntime().exec(new String[]{"/bin/sh" ,"-c", file.getPath()});
-
-		// This will execute the scripts synchronously
-		try {
-			ProcessBuilder pb = new ProcessBuilder(file.getPath());
-			Process p = pb.start(); // Start the process.
-			p.waitFor(); // Wait for the process to finish.
-			
-			System.out.println("Script executed successfully "+ p.exitValue());
-		} catch (Exception e) {
-			System.out.println("Script executed FAILURE !!! "+e);
-		}
-		
-
-	}catch (Exception e) {
-		System.out.println("Script executed FAILURE !!! "+e);
-	}
-		
-		
-		//Read the recorded true or false from the resultCommon.txt file
-		 try {
-				 resultCommon = this.readTextFile("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/resultCommon.txt");
-				
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		String[] arrValues =  resultCommon.split(",");
-		int i = 0;
-		for(String arrValRead : arrValues){
-			System.out.println("use  arrValues["+i+"] = "+arrValRead);
-			i++;
-		}
-		
-		if(arrValues[0].toLowerCase().equals("true")) {
-			
-			System.out.println("Its a Match , Read File = "+resultCommon);
-			//Incase you want to stop even if the script passes
-
-		}else {
-			System.out.println("Its Not a Match , Read File = "+resultCommon);
-
-		}
-
-		return arrValues;
-	}
-	
-	
-	 public String readTextFile(String filePath) throws Exception
-	  {
-	    // pass the path to the file as a parameter
-//	    FileReader fr =
-//	      new FileReader(filePath);
-//	 
-//	    int i;
-//	    while ((i=fr.read()) != -1) {
-//	      System.out.print("result common file read = "+(char) i);
-//	      
-//	    }
-//	    
-//	    return fr.toString();
-		 
-		
-		    String data = "";
-		    data = new String(Files.readAllBytes(Paths.get(filePath)));
-
-		    System.out.println("resultCommon.txt file read as = "+data);
-		    return data;
-
-		  
-	  }
-	 
-	 public void writeTextFile(String filePath,String data) throws IOException{
-	  
-		 File file = new File(filePath);
 			// Create the file
 			if (file.createNewFile()) {
 				System.out.println("File is created!");
@@ -457,14 +440,105 @@ public class Wrapper {
 
 			// Write Content an create the shell or bat file
 			FileWriter writer = new FileWriter(file);
-			writer.write(data);
+			writer.write("#!/bin/bash \n");
+			writer.write("cd /auto/sahi_pro/userdata/bin \n");
+			writer.write("./testrunner.sh /auto/sahi_pro/userdata/scripts/Sahi_Project_Lightning/svmx/test_lab/test_cases/" + sahiScriptFilePath + " https://test.salesforce.com chrome");
 			writer.close();
-		    System.out.println("resultCommon.txt file Write as = "+data);
-		  
-	  }
-	 
-	
+			// make it executable
+			Runtime.getRuntime().exec("chmod u+x " + file);
 
-	 
+			// File fileExec = new File("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/testCase/testFile1.sh");
+			//// This will execute the scripts asynchronously
+			// Runtime.getRuntime().exec(new String[]{"/bin/sh" ,"-c", file.getPath()});
+
+			// This will execute the scripts synchronously
+			try {
+				ProcessBuilder pb = new ProcessBuilder(file.getPath());
+				Process p = pb.start(); // Start the process.
+				p.waitFor(); // Wait for the process to finish.
+
+				System.out.println("Script executed successfully " + p.exitValue());
+			} catch (Exception e) {
+				System.out.println("Script executed FAILURE !!! " + e);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Script executed FAILURE !!! " + e);
+		}
+
+		// Read the recorded true or false from the resultCommon.txt file
+		try {
+			resultCommon = this.readTextFile("/auto/appium/Appium_Project/FSAAID/src/test/java/FSAID/FSAAID/workBench/resultCommon.txt");
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String[] arrValues = resultCommon.split(",");
+		int i = 0;
+		for (String arrValRead : arrValues) {
+			System.out.println("use  arrValues[" + i + "] = " + arrValRead);
+			i++;
+		}
+
+		if (arrValues[0].toLowerCase().equals("true")) {
+
+			System.out.println("Its a Match , Read File = " + resultCommon);
+			// Incase you want to stop even if the script passes
+
+		} else {
+			System.out.println("Its Not a Match , Read File = " + resultCommon);
+
+		}
+
+		return arrValues;
+	}
+
+	public String readTextFile(String filePath) throws Exception {
+		// pass the path to the file as a parameter
+		// FileReader fr =
+		// new FileReader(filePath);
+		//
+		// int i;
+		// while ((i=fr.read()) != -1) {
+		// System.out.print("result common file read = "+(char) i);
+		//
+		// }
+		//
+		// return fr.toString();
+
+		String data = "";
+		data = new String(Files.readAllBytes(Paths.get(filePath)));
+
+		System.out.println("resultCommon.txt file read as = " + data);
+		return data;
+
+	}
+
+	public void writeTextFile(String filePath, String data) throws IOException {
+
+		File file = new File(filePath);
+		// Create the file
+		if (file.createNewFile()) {
+			System.out.println("File is created!");
+		} else {
+			System.out.println("File already exists.");
+		}
+
+		// Write Content an create the shell or bat file
+		FileWriter writer = new FileWriter(file);
+		writer.write(data);
+		writer.close();
+		System.out.println("resultCommon.txt file Write as = " + data);
+
+	}
+	
+	
+//	@FindBy(xpath="//android.view.View[@content-desc='Explore']")
+	private String eleExploreIcn = "//*[text() = 'Explore']";
+	public WebElement eleExploreIcn(String eleExploreIcn) 
+	{
+		return (WebElement) this.fetchElementWrapper(eleExploreIcn);
+	}
 
 }

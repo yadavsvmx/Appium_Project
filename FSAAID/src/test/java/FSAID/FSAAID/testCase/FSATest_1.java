@@ -46,99 +46,99 @@ public class FSATest_1 {
 	}
 
 	@Test(priority = 0)
-	public void testiOS() {
+	public void testiOS() throws IOException {
 
 		// From API
 
 		ApiServices appServices = new ApiServices();
-		try {
-			appServices.getAccessToken();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
+		appServices.getAccessToken();
+
 		String sWOJsonData = "{\"SVMXC__City__c\":\"Delhi\",\"SVMXC__Zip__c\":\"110003\",\"SVMXC__Country__c\":\"India\",\"SVMXC__State__c\":\"Haryana\"}";
-		try {
-			woNum = appServices.getWOName(appServices.getWOORecordID(sWOJsonData));
-			System.out.println("WO NUMBER FETCHED " + woNum);
-			wrpr.writeTextFile(appiumResultCommonPath, "true," + woNum);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
+		woNum = appServices.getWOName(appServices.getWOORecordID(sWOJsonData));
+		System.out.println("WO NUMBER FETCHED " + woNum);
+		wrpr.writeTextFile(appiumResultCommonPath, "true," + woNum);
 
 		// Start the appium driver, as the server usualy times out if no commands are sent
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
 		Pg_login.login(init.un, init.pwd);
 
+		wrpr.fetchElementWrapper(Pg_explore.btn_explore).tap();
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).tap();
+		wrpr.fetchElementWrapper(Pg_tools.btn_tools).tap();
+		
+		
+		wrpr.fetchElementWrapper(Pg_explore.btn_explore).clickXpath();
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).longPress();
+		wrpr.fetchElementWrapper(Pg_tools.btn_tools).longPress();
+
 		Pg_tools.doDataSync();
-		wrpr.touchWraper(Pg_calendar.btn_calendar, "tap");
-
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).tap();
 		wrpr.takeScreenShotWrapper();
-
 		Pg_explore.createEvent("Work Order Search 2", woNum, "default", "default", "new event");
 
-//		wrpr.touchWraper(Pg_calendar.btn_calendar, "tap");
-//
-//		wrpr.touchWraper("//div[contains(.,'" + woNum + "')]/div[@class='sfmevent-location-container']", "tap");
-//
-//		wrpr.touchWraper(Pg_explore.btn_actions, "tap");
-//		wrpr.touchWraper(Pg_explore.btn_recordTM, "tap");
-//		wrpr.touchWraper(Pg_explore.btn_parts_add, "tap");
-//		wrpr.setSelectedWrapper(Pg_explore.txt_picker_search, "Starts With");
-//
-//		// wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
-//
-//		wrpr.sendKeyWrapper(Pg_explore.btn_picklist_serach, "BlueLake Men Watch");
-//		wrpr.touchWraper(Pg_explore.btn_search, "tap");
-//		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-//
-//		wrpr.sendKeyWrapper(Pg_explore.btn_picklist_serach, "GE Product");
-//		wrpr.touchWraper(Pg_explore.btn_search, "tap");
-//		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-//		wrpr.touchWraper(Pg_explore.btn_picklist_addSelected, "tap");
-//
-//		wrpr.touchWraper(Pg_explore.btn_travel_add, "tap");
-//		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
-//		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
-//		wrpr.sendKeyWrapper(Pg_explore.txt_lineQty, "100");
-//		wrpr.sendKeyWrapper(Pg_explore.txt_linePricePerUnit, "20");
-//		wrpr.touchWraper(Pg_explore.btn_done, "tap");
-//
-//		wrpr.touchWraper(Pg_explore.btn_labour_add, "tap");
-//		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-//		wrpr.sendKeyWrapper(Pg_explore.btn_picklist_serach, "BlueLake Men Watch");
-//		wrpr.touchWraper(Pg_explore.btn_search, "tap");
-//		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
-//
-//		wrpr.setSelectedWrapper(Pg_explore.btn_activityType, "Cleanup");
-//		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
-//		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
-//		wrpr.sendKeyWrapper(Pg_explore.txt_lineQty, "100");
-//		wrpr.sendKeyWrapper(Pg_explore.txt_linePricePerUnit, "20");
-//
-//		wrpr.touchWraper(Pg_explore.btn_done, "tap");
-//
-//		wrpr.touchWraper(Pg_explore.btn_save, "tap"); // wrpr.touchWraper(Pg_explore.btn_yes, "tap");
-//
-//		wrpr.touchWraper(Pg_explore.btn_actions, "tap");
-//
-//		wrpr.touchWraper(Pg_explore.btn_printServiceReport, "tap");
-//
-//		try {
-//			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'" + woNum + "')]")) != null) {
-//				System.out.println("Opened the document page successfully");
-//			}
-//		} catch (Exception e) {
-//			System.out.println("Document error : " + e);
-//		}
-//		wrpr.takeScreenShotWrapper();
-//
-//		wrpr.touchWraper(Pg_explore.btn_report_done, "click");
-//		
-//		init.driver.rotate(ScreenOrientation.LANDSCAPE);
-//		init.driver.rotate(ScreenOrientation.PORTRAIT);
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).tap();
+
+		wrpr.fetchElementWrapper("//div[contains(.,'" + woNum + "')]/div[@class='sfmevent-location-container']").tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_actions).tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_recordTM).tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_parts_add).tap();
+		wrpr.setSelectedWrapper(Pg_explore.txt_picker_search, "Starts With");
+
+		// wrpr.fetchElementWrapper("//*[.='Include Online']/..//*[@type='checkbox']/..").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("BlueLake Men Watch");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']").tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("GE Product");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='GE Product'][@class = 'x-gridcell']").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_addSelected).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_travel_add).tap();
+		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.fetchElementWrapper(Pg_explore.txt_lineQty).sendKeyWrapper("100");
+		wrpr.fetchElementWrapper(Pg_explore.txt_linePricePerUnit).sendKeyWrapper("20");
+		wrpr.fetchElementWrapper(Pg_explore.btn_done).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_labour_add).tap();
+		wrpr.fetchElementWrapper("//*[. = 'Part']//*[@class = 'x-input-el']").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("BlueLake Men Watch");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']").tap();
+
+		wrpr.setSelectedWrapper(Pg_explore.btn_activityType, "Cleanup");
+		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
+		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
+		wrpr.fetchElementWrapper(Pg_explore.txt_lineQty).sendKeyWrapper("100");
+		wrpr.fetchElementWrapper(Pg_explore.txt_linePricePerUnit).sendKeyWrapper("20");
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_done).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_save).tap();
+		// wrpr.fetchElementWrapper(Pg_explore.btn_yes).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_actions).tap();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_printServiceReport).tap();
+
+		try {
+			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'" + woNum + "')]")) != null) {
+				System.out.println("Opened the document page successfully");
+			}
+		} catch (Exception e) {
+			System.out.println("Document error : " + e);
+		}
+		wrpr.takeScreenShotWrapper();
+
+		wrpr.fetchElementWrapper(Pg_explore.btn_report_done).click();
+
+		init.driver.rotate(ScreenOrientation.LANDSCAPE);
+		init.driver.rotate(ScreenOrientation.PORTRAIT);
 
 		// We need to rotate to landscape before rotating to portraite init.driver.rotate(ScreenOrientation.LANDSCAPE); init.driver.rotate(ScreenOrientation.PORTRAIT);
 
@@ -156,7 +156,6 @@ public class FSATest_1 {
 				return;
 			}
 
-			
 		} else {
 			try {
 				wrpr.writeTextFile(appiumResultCommonPath, "false," + woNum);
@@ -168,7 +167,7 @@ public class FSATest_1 {
 
 	}
 
-	//@Test(priority = 1)
+	// @Test(priority = 1)
 	public void testiOS1() throws InterruptedException, IOException {
 
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
@@ -178,53 +177,53 @@ public class FSATest_1 {
 
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper(Pg_calendar.btn_calendar, "tap");
+		wrpr.fetchElementWrapper(Pg_calendar.btn_calendar).tap();
 
-		wrpr.touchWraper("//div[contains(.,'" + woNum + "')]/div[@class='sfmevent-location-container']", "tap");
+		wrpr.fetchElementWrapper("//div[contains(.,'" + woNum + "')]/div[@class='sfmevent-location-container']").tap();
 
-		wrpr.touchWraper(Pg_explore.btn_actions, "tap");
-		wrpr.touchWraper(Pg_explore.btn_recordTM, "tap");
-		wrpr.touchWraper(Pg_explore.btn_parts_add, "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_actions).tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_recordTM).tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_parts_add).tap();
 		wrpr.setSelectedWrapper(Pg_explore.txt_picker_search, "Starts With");
 
-		wrpr.touchWraper("//*[.='Include Online']/..//*[@type='checkbox']/..", "tap");
+		wrpr.fetchElementWrapper("//*[.='Include Online']/..//*[@type='checkbox']/..").tap();
 
-		wrpr.sendKeyWrapper(Pg_explore.btn_picklist_serach, "BlueLake Men Watch");
-		wrpr.touchWraper(Pg_explore.btn_search, "tap");
-		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("BlueLake Men Watch");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']").tap();
 
-		wrpr.sendKeyWrapper(Pg_explore.btn_picklist_serach, "GE Product");
-		wrpr.touchWraper(Pg_explore.btn_search, "tap");
-		wrpr.touchWraper("//*[.='GE Product'][@class = 'x-gridcell']", "tap");
-		wrpr.touchWraper(Pg_explore.btn_picklist_addSelected, "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("GE Product");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='GE Product'][@class = 'x-gridcell']").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_addSelected).tap();
 
-		wrpr.touchWraper(Pg_explore.btn_travel_add, "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_travel_add).tap();
 		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
 		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
-		wrpr.sendKeyWrapper(Pg_explore.txt_lineQty, "100");
-		wrpr.sendKeyWrapper(Pg_explore.txt_linePricePerUnit, "20");
-		wrpr.touchWraper(Pg_explore.btn_done, "tap");
+		wrpr.fetchElementWrapper(Pg_explore.txt_lineQty).sendKeyWrapper("100");
+		wrpr.fetchElementWrapper(Pg_explore.txt_linePricePerUnit).sendKeyWrapper("20");
+		wrpr.fetchElementWrapper(Pg_explore.btn_done).tap();
 
-		wrpr.touchWraper(Pg_explore.btn_labour_add, "tap");
-		wrpr.touchWraper("//*[. = 'Part']//*[@class = 'x-input-el']", "tap");
-		wrpr.sendKeyWrapper(Pg_explore.btn_picklist_serach, "BlueLake Men Watch");
-		wrpr.touchWraper(Pg_explore.btn_search, "tap");
-		wrpr.touchWraper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']", "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_labour_add).tap();
+		wrpr.fetchElementWrapper("//*[. = 'Part']//*[@class = 'x-input-el']").tap();
+		wrpr.fetchElementWrapper(Pg_explore.btn_picklist_serach).sendKeyWrapper("BlueLake Men Watch");
+		wrpr.fetchElementWrapper(Pg_explore.btn_search).tap();
+		wrpr.fetchElementWrapper("//*[.='BlueLake Men Watch'][@class = 'x-gridcell']").tap();
 
 		wrpr.setSelectedWrapper(Pg_explore.btn_activityType, "Cleanup");
 		wrpr.setDateWrapper(Pg_explore.txt_startDateAndTime, "futureStart");
 		wrpr.setDateWrapper(Pg_explore.txt_endDateAndTime, "futureEnd");
-		wrpr.sendKeyWrapper(Pg_explore.txt_lineQty, "100");
-		wrpr.sendKeyWrapper(Pg_explore.txt_linePricePerUnit, "20");
+		wrpr.fetchElementWrapper(Pg_explore.txt_lineQty).sendKeyWrapper("100");
+		wrpr.fetchElementWrapper(Pg_explore.txt_linePricePerUnit).sendKeyWrapper("20");
 
-		wrpr.touchWraper(Pg_explore.btn_done, "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_done).tap();
 
-		wrpr.touchWraper(Pg_explore.btn_save, "tap");
-		// wrpr.touchWraper(Pg_explore.btn_yes, "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_save).tap();
+		// wrpr.fetchElementWrapper(Pg_explore.btn_yes).tap();
 
-		wrpr.touchWraper(Pg_explore.btn_actions, "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_actions).tap();
 
-		wrpr.touchWraper(Pg_explore.btn_printServiceReport, "tap");
+		wrpr.fetchElementWrapper(Pg_explore.btn_printServiceReport).tap();
 
 		try {
 			if (init.driver.findElement(By.xpath("//*[@class = 'content'][contains(.,'" + woNum + "')]")) != null) {
@@ -235,10 +234,10 @@ public class FSATest_1 {
 		}
 		wrpr.takeScreenShotWrapper();
 
-		wrpr.touchWraper(Pg_explore.btn_report_done, "click");
+		wrpr.fetchElementWrapper(Pg_explore.btn_report_done).click();
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);
-		
+
 		// We need to roate to landscape before rotating to portraite
 		init.driver.rotate(ScreenOrientation.LANDSCAPE);
 		init.driver.rotate(ScreenOrientation.PORTRAIT);

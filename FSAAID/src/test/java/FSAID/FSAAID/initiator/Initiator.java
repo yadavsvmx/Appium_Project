@@ -40,12 +40,14 @@ public class Initiator {
 	public static String elText = null;
 	public static String elTagname = null;
 	public static Point xyPoint = null;
+	public static String xpathStr;
 	
 	public static String adminUn="pqtadmin@bugbash.com";
 	public static String adminPwd="servicemax3";
 
 	public static String un="vinod.tharavath@ge.com";
 	public static String pwd="svmx123#";
+	
 	
 	
 	public void startDriver() {
@@ -71,6 +73,7 @@ public class Initiator {
 		capabilities.setCapability("autoAcceptAlerts", "true");
 		capabilities.setCapability("autoGrantPermissions", "true");
 		capabilities.setCapability("locationServicesAuthorized", "true");
+		capabilities.setCapability("locationServicesEnabled","true");
 		capabilities.setCapability("clearSystemFiles", "true");
 
 		// caps.setCapability("bundleid", "com.example.apple-samplecode.UICatalog");

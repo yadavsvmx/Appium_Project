@@ -1,5 +1,7 @@
 package FSAID.FSAAID.objectRepo;
 
+import org.openqa.selenium.WebElement;
+
 import FSAID.FSAAID.initiator.Initiator;
 import FSAID.FSAAID.wrapper.*;
 
@@ -7,6 +9,13 @@ public class Pg_explore {
 
 	Initiator init = new Initiator();
 	static Wrapper wrpr = new Wrapper();
+	
+//	@FindBy(xpath="//android.view.View[@content-desc='Explore']")
+	private String btn_exploreFact = "//*[text() = 'Explore']";
+	public WebElement btn_explore() 
+	{
+		return (WebElement) wrpr.fetchElementWrapper(btn_exploreFact);
+	}
 
 	public  String btn_explore = "//*[text() = 'Explore']";
 	public  String txt_search = "//input[@placeholder='Search']";
@@ -33,39 +42,43 @@ public class Pg_explore {
 	public  String btn_printServiceReport = "//*[text() = 'Print Service Report']";
 	public  String btn_report_done = "//input[@value ='Done']";
 
-	public  void navigateToExplore() {
-		wrpr.touchWraper(btn_explore, "tap");
-
+	public  Pg_explore navigateToExplore() {
+		btn_explore().click();
+return this;
 	}
 
-	public  void searchForWorOrder(String searchName, String workOrderNumber) {
+	public  Pg_explore searchForWorOrder(String searchName, String workOrderNumber) {
 		navigateToExplore();
-		wrpr.touchWraper("//*[text() = '" + searchName + "']", "tap");
-		wrpr.sendKeyWrapper(txt_search, workOrderNumber);
+		wrpr.fetchElementWrapper("//*[text() = '" + searchName + "']").tap();
+		wrpr.fetchElementWrapper(txt_search).sendKeyWrapper( workOrderNumber);
+		return this;
 
 	}
 
-	public  void searchAndSelectWorOrder(String searchName, String workOrderNumber) {
+	public  Pg_explore searchAndSelectWorOrder(String searchName, String workOrderNumber) {
 		searchForWorOrder(searchName, workOrderNumber);
-		wrpr.touchWraper(btn_search, "tap");
-		wrpr.touchWraper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'" + workOrderNumber + "')]", "tap");
+		wrpr.fetchElementWrapper(btn_search).tap();
+		wrpr.fetchElementWrapper("//*[@class='x-gridcell sfmsearch-grid-cell']//*[contains(.,'" + workOrderNumber + "')]").tap();
+		return this;
 
 	}
 
-	public  void createEvent(String searchName, String workOrderNumber, String startDate, String endDate, String Subject) {
+	public  Pg_explore createEvent(String searchName, String workOrderNumber, String startDate, String endDate, String Subject) {
 		searchAndSelectWorOrder(searchName, workOrderNumber);
 
-		wrpr.touchWraper(btn_actions, "tap");
-		wrpr.touchWraper(btn_newEvent, "tap");
+		wrpr.fetchElementWrapper(btn_actions).tap();
+		wrpr.fetchElementWrapper(btn_newEvent).tap();
 		wrpr.setDateWrapper(txt_startDateAndTime, startDate);
 
 		wrpr.setDateWrapper(txt_endDateAndTime, endDate);
-		wrpr.sendKeyWrapper(txt_subject, Subject);
-		wrpr.touchWraper(btn_save, "tap");
+		wrpr.fetchElementWrapper(txt_subject).sendKeyWrapper( Subject);
+		wrpr.fetchElementWrapper(btn_save).tap();
 
-		if (wrpr.FetchElementWrapper(btn_yes) != null) {
-			wrpr.touchWraper(btn_yes, "tap");
+		if (wrpr.FetchElementDetails(btn_yes) != null) {
+			wrpr.fetchElementWrapper(btn_yes).tap();
 		}
+		return this;
+
 
 	}
 }
